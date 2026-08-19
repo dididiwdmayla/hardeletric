@@ -71,7 +71,8 @@
     return p;
   }
 
-  function disparar(cx, cy) {
+  function disparar(cx, cy, escala) {
+    var k = escala || 1;
     var caixa = document.createElement('div');
     caixa.style.cssText =
       'position:fixed;left:' + cx + 'px;top:' + cy + 'px;width:100px;height:100px;' +
@@ -89,7 +90,7 @@
     var base = Math.random() * Math.PI * 2;
     for (var i = 0; i < quantos; i++) {
       var ang = base + (i / quantos) * Math.PI * 2 + aleatorio(-0.45, 0.45);
-      var comp = aleatorio(12, 28);
+      var comp = aleatorio(12, 28) * k;
       var arco = polilinha(0, 0, ang, comp, Math.random() < 0.5 ? 3 : 4);
       g.appendChild(traco(arco.d));
       if (i === 0 || Math.random() < 0.45) {
@@ -112,6 +113,15 @@
     );
     anim.onfinish = function () { if (caixa.parentNode) caixa.parentNode.removeChild(caixa); };
   }
+
+  /* Arco avulso, fora do clique: a página pede o estalo onde quiser, em
+     coordenadas de viewport. Usado no choque da foto do Mateus, em /sobre.
+     Respeita prefers-reduced-motion pelo mesmo caminho do clique. */
+  window.HardEletric = window.HardEletric || {};
+  window.HardEletric.arco = function (x, y, escala) {
+    if (reduz.matches) return;
+    disparar(x, y, escala);
+  };
 
   document.addEventListener('click', function (e) {
     if (reduz.matches) return;

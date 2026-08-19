@@ -168,7 +168,7 @@ a:hover{color:var(--ambar-luz);}
         <h1 style="font-family:var(--ff-display);font-variation-settings:var(--wdth-expanded);font-weight:700;font-size:var(--t-h1);line-height:var(--lh-titulo);letter-spacing:-0.015em;max-width:18ch">Mateus atende Maringá e Sarandi.</h1>
         <p style="max-width:52ch;color:var(--cinza-texto);font-size:clamp(1rem,1.35vw,1.2rem)">Instalação, manutenção e iluminação — do reparo de uma tarde ao projeto de iluminação inteiro.</p>
       </div>
-      <div data-liga style="flex:1 1 min(100%,32%);position:relative;aspect-ratio:4/5;background:var(--base-800);border:var(--borda);border-radius:var(--r-2);overflow:hidden">
+      <div data-liga data-choque style="flex:1 1 min(100%,32%);position:relative;aspect-ratio:4/5;background:var(--base-800);border:var(--borda);border-radius:var(--r-2);overflow:hidden">
         <div aria-hidden="true" style="position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 40px,color-mix(in srgb, var(--base-700) 55%, transparent) 40px 41px)"></div>
         <img src="/uploads/sobre/mateus.jpg" alt="Mateus, eletricista responsável pela Hard Eletric" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 30%;display:block" />
         <span aria-hidden="true" style="position:absolute;inset:auto 0 0 0;padding:30px var(--sp-2) var(--sp-2);background:linear-gradient(to top, color-mix(in srgb, var(--base-950) 82%, transparent), transparent);font-family:var(--ff-mono);font-size:var(--t-mono);letter-spacing:var(--ls-mono);color:var(--branco)">MATEUS</span>
@@ -193,20 +193,41 @@ a:hover{color:var(--ambar-luz);}
   <!-- ── BLOCO 2 · O ACABAMENTO INVISÍVEL (momento da página) ── -->
   <section data-screen-label="Acabamento invisível" style="background:var(--base-950);border-top:var(--borda);padding:var(--sp-7) var(--sp-3)">
     <div style="max-width:var(--max-w);margin:0 auto;display:flex;flex-wrap:wrap;gap:var(--sp-5);align-items:center">
-      <div data-quadro style="flex:1 1 min(100%,58%);position:relative;aspect-ratio:4/3;background:var(--base-800);border:var(--borda);border-radius:var(--r-2);overflow:hidden">
+      <div data-quadro style="flex:1 1 min(100%,58%);position:relative;aspect-ratio:4/3;background:var(--base-950);border:var(--borda);border-radius:var(--r-2);overflow:hidden">
         <div aria-hidden="true" style="position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 52px,color-mix(in srgb, var(--base-700) 55%, transparent) 52px 53px)"></div>
-        <img src="/uploads/sobre/quadro-identificado.jpg" alt="Quadro de entrada montado: barramento de cobre, cabos separados por trajeto e anilhados por fase, e cada compartimento com o disjuntor no lugar" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block" />
+        <img data-foto src="/uploads/sobre/quadro-identificado.jpg" alt="Quadro de entrada montado: barramento de cobre, cabos separados por trajeto e anilhados por fase, e cada compartimento com o disjuntor no lugar" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block" />
+
+        <!-- Enquanto o contato está aberto, a foto fica apagada: o escuro é
+             estado do circuito, não estilo. Some quando a energia passa. -->
+        <div data-apagado aria-hidden="true" style="position:absolute;inset:0;z-index:1;background:var(--base-950);opacity:0"></div>
+        <div data-clarao aria-hidden="true" style="position:absolute;inset:0;z-index:2;opacity:0;background:radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--azul-glow) 55%, transparent), transparent 62%)"></div>
 
         <!-- esquema traçado por cima do real: o instrumento lendo o resultado -->
-        <svg data-esquema viewBox="0 0 400 300" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;z-index:1;color:var(--azul-instrumento)">
-          <g fill="none" stroke="currentColor" stroke-width="1.6" opacity="0.9">
-            <path data-traco d="M40 60 H150 V140 H262" stroke-dasharray="1000" stroke-dashoffset="1000" />
-            <path data-traco d="M40 240 H120 V170 H262" stroke-dasharray="1000" stroke-dashoffset="1000" />
+        <svg data-esquema viewBox="0 0 400 300" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;z-index:3;color:var(--azul-instrumento)">
+          <!-- 1 · alimentação até o contato -->
+          <g fill="none" stroke="currentColor" stroke-width="1.8" opacity="0.95">
+            <path data-traco data-etapa="entrada" d="M26 150 H150" stroke-dasharray="1000" stroke-dashoffset="1000" />
           </g>
-          <g data-simbolo style="opacity:0"><svg x="252" y="30" width="34" height="34" style="color:var(--azul-instrumento)"><use href="#s-disjuntor"></use></svg></g>
-          <g data-simbolo style="opacity:0"><svg x="252" y="124" width="34" height="34" style="color:var(--azul-instrumento)"><use href="#s-terra"></use></svg></g>
-          <g data-simbolo style="opacity:0"><svg x="252" y="216" width="34" height="34" style="color:var(--azul-instrumento)"><use href="#s-tomada"></use></svg></g>
-          <g data-simbolo style="opacity:0"><svg x="86" y="118" width="34" height="34" style="color:var(--azul-instrumento)"><use href="#s-duto"></use></svg></g>
+          <!-- 2 · o contato: a lâmina gira e fecha sobre o borne -->
+          <g data-contato stroke="currentColor" fill="none" opacity="0.95">
+            <circle cx="150" cy="150" r="3.4" fill="currentColor" stroke="none" />
+            <circle cx="196" cy="150" r="3.4" fill="currentColor" stroke="none" />
+            <line data-lamina x1="150" y1="150" x2="196" y2="150" stroke-width="2.6" stroke-linecap="round" style="transform-origin:150px 150px;transition:transform 280ms cubic-bezier(0.34,1.4,0.64,1)" />
+          </g>
+          <!-- 3 · faísca do fechamento -->
+          <g data-faisca stroke="currentColor" stroke-width="1.4" stroke-linecap="round" fill="none" style="opacity:0;transform-origin:196px 150px">
+            <path d="M196 150 l14 -13 M196 150 l16 4 M196 150 l11 15 M196 150 l-2 -18" />
+          </g>
+          <!-- 4 · o que passa a ser alimentado depois que o contato fecha -->
+          <g fill="none" stroke="currentColor" stroke-width="1.8" opacity="0.95">
+            <path data-traco data-etapa="saida" d="M196 150 H244 V64 H286" stroke-dasharray="1000" stroke-dashoffset="1000" />
+            <path data-traco data-etapa="saida" d="M244 150 H286" stroke-dasharray="1000" stroke-dashoffset="1000" />
+            <path data-traco data-etapa="saida" d="M244 150 V236 H286" stroke-dasharray="1000" stroke-dashoffset="1000" />
+          </g>
+          <g data-simbolo style="opacity:0"><svg x="286" y="47" width="34" height="34" style="color:var(--azul-instrumento)"><use href="#s-disjuntor"></use></svg></g>
+          <g data-simbolo style="opacity:0"><svg x="286" y="133" width="34" height="34" style="color:var(--azul-instrumento)"><use href="#s-terra"></use></svg></g>
+          <g data-simbolo style="opacity:0"><svg x="286" y="219" width="34" height="34" style="color:var(--azul-instrumento)"><use href="#s-tomada"></use></svg></g>
+          <g data-simbolo style="opacity:0"><svg x="62" y="133" width="34" height="34" style="color:var(--azul-instrumento)"><use href="#s-duto"></use></svg></g>
         </svg>
       </div>
       <div style="flex:1 1 min(100%,32%);display:grid;gap:var(--sp-3);align-content:start" data-liga>
@@ -308,6 +329,8 @@ class Component extends DCLogic {
     if (this.props.ambarLuz) raiz.style.setProperty('--ambar-luz', this.props.ambarLuz);
 
     // Estado de falha: sem JS ou com prefers-reduced-motion, a página aparece LIGADA.
+    // O HTML já nasce nesse estado (véu transparente, lâmina fechada); aqui só
+    // faltam o esquema traçado e os símbolos.
     const semMovimento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (semMovimento || this.props.animacoes === false) {
       document.querySelectorAll('[data-traco]').forEach(p => { p.style.strokeDashoffset = '0'; });
@@ -315,15 +338,117 @@ class Component extends DCLogic {
       return;
     }
 
+    this.timers = [];
     this.observadores = [];
+
+    // ── Quadro: a foto entra APAGADA e o contato, aberto ──────────────
+    // A foto é clara demais para o esquema azul competir com ela. Então a
+    // ordem se inverte: primeiro o circuito, depois a luz. O contato fecha e
+    // a imagem volta como um LED religando — pisca duas vezes e estabiliza.
+    const quadro = document.querySelector('[data-quadro]');
+    if (quadro) {
+      const veu = quadro.querySelector('[data-apagado]');
+      const fotoQuadro = quadro.querySelector('[data-foto]');
+      const lamina = quadro.querySelector('[data-lamina]');
+      if (veu) veu.style.opacity = '0.9';
+      if (fotoQuadro) fotoQuadro.style.filter = 'brightness(0.6) saturate(0.3)';
+      if (lamina) {
+        // Abrir o contato não pode ser visto: o reflow força o estado inicial
+        // a valer antes de a transição voltar, senão a lâmina gira na entrada.
+        const antes = lamina.style.transition;
+        lamina.style.transition = 'none';
+        lamina.style.transform = 'rotate(-42deg)';
+        lamina.getBoundingClientRect();
+        lamina.style.transition = antes;
+      }
+    }
+
+    const tracar = (paths, atraso, dur) => paths.forEach((p, i) => {
+      const total = p.getTotalLength ? p.getTotalLength() : 1000;
+      p.style.strokeDasharray = total;
+      p.style.strokeDashoffset = total;
+      p.style.transition = 'stroke-dashoffset ' + dur + 'ms cubic-bezier(0.22,0.61,0.36,1) ' + (atraso + i * 90) + 'ms';
+      requestAnimationFrame(() => { p.style.strokeDashoffset = '0'; });
+    });
+
+    const acenderQuadro = el => {
+      const foto = el.querySelector('[data-foto]');
+      const veu = el.querySelector('[data-apagado]');
+      const clarao = el.querySelector('[data-clarao]');
+      const lamina = el.querySelector('[data-lamina]');
+      const faisca = el.querySelector('[data-faisca]');
+      const entrada = Array.from(el.querySelectorAll('[data-traco][data-etapa="entrada"]'));
+      const saida = Array.from(el.querySelectorAll('[data-traco][data-etapa="saida"]'));
+
+      // 1 · a alimentação chega até o contato, que ainda está aberto
+      tracar(entrada, 140, 520);
+
+      // 2 · a lâmina gira e encosta no borne
+      this.timers.push(setTimeout(() => {
+        if (lamina) lamina.style.transform = 'rotate(0deg)';
+      }, 700));
+
+      // 3 · fecha o contato: faísca, clarão e a foto religando
+      this.timers.push(setTimeout(() => {
+        if (faisca) faisca.animate(
+          [{ opacity: 0, transform: 'scale(0.5)' },
+           { opacity: 1, transform: 'scale(1)', offset: 0.22 },
+           { opacity: 0, transform: 'scale(1.4)' }],
+          { duration: 340, easing: 'cubic-bezier(0.22,0.61,0.36,1)' });
+
+        if (clarao) clarao.animate(
+          [{ opacity: 0 }, { opacity: 0.55, offset: 0.16 }, { opacity: 0 }],
+          { duration: 560, easing: 'ease-out' });
+
+        if (veu) {
+          veu.animate(
+            [{ opacity: 0.9 },
+             { opacity: 0.1, offset: 0.10 },
+             { opacity: 0.72, offset: 0.19 },
+             { opacity: 0.04, offset: 0.34 },
+             { opacity: 0.38, offset: 0.46 },
+             { opacity: 0 }],
+            { duration: 900, easing: 'cubic-bezier(0.22,0.61,0.36,1)', fill: 'forwards' });
+          veu.style.opacity = '0';
+        }
+
+        if (foto) {
+          // O valor final já vale por baixo; a animação só passa por cima dele
+          // com o tremido do religamento e devolve a foto no brilho normal.
+          foto.style.filter = 'brightness(1) saturate(1)';
+          foto.animate(
+            [{ filter: 'brightness(0.6) saturate(0.3)' },
+             { filter: 'brightness(1.3) saturate(1.05)', offset: 0.12 },
+             { filter: 'brightness(0.75) saturate(0.55)', offset: 0.22 },
+             { filter: 'brightness(1.12) saturate(1)', offset: 0.42 },
+             { filter: 'brightness(1) saturate(1)' }],
+            { duration: 900, easing: 'ease-out' });
+        }
+
+        // 4 · com o contato fechado, a energia segue para os circuitos
+        tracar(saida, 60, 620);
+      }, 950));
+
+      // 5 · os símbolos entram por último, com o circuito já energizado
+      this.timers.push(setTimeout(() => {
+        el.querySelectorAll('[data-simbolo]').forEach((g, i) => {
+          g.style.transition = 'opacity 460ms ease ' + (i * 120) + 'ms';
+          requestAnimationFrame(() => { g.style.opacity = '1'; });
+        });
+      }, 1220));
+    };
+
     const alvos = Array.from(document.querySelectorAll('[data-liga],[data-quadro]'));
     const pend = new Set(alvos);
     const bandaBase = () => window.innerHeight * 0.68;
     let obs;
 
     alvos.forEach(el => {
-      el.style.opacity = '0.4';
-      el.style.filter = 'saturate(0.22)';
+      // O quadro não escurece pelo bloco: quem está apagada ali é a foto, sob
+      // o véu. Baixar a opacidade do bloco apagaria o esquema azul junto.
+      const eQuadro = el.hasAttribute('data-quadro');
+      el.style.opacity = eQuadro ? '1' : '0.4';
+      el.style.filter = eQuadro ? 'none' : 'saturate(0.22)';
       el.style.transform = 'translateY(14px)';
       el.style.transition = 'opacity 900ms cubic-bezier(0.22,0.61,0.36,1), filter 900ms ease, transform 900ms cubic-bezier(0.22,0.61,0.36,1)';
       el.style.willChange = 'opacity, transform';
@@ -331,24 +456,11 @@ class Component extends DCLogic {
 
     const ligar = el => {
       el.style.opacity = '1';
-      el.style.filter = 'saturate(1)';
+      if (!el.hasAttribute('data-quadro')) el.style.filter = 'saturate(1)';
       el.style.transform = 'translateY(0)';
       el.style.willChange = 'auto';
 
-      // O esquema é traçado por cima do real: instrumento lendo o resultado.
-      if (el.hasAttribute('data-quadro')) {
-        el.querySelectorAll('[data-traco]').forEach((p, i) => {
-          const total = p.getTotalLength ? p.getTotalLength() : 1000;
-          p.style.strokeDasharray = total;
-          p.style.strokeDashoffset = total;
-          p.style.transition = 'stroke-dashoffset 900ms cubic-bezier(0.22,0.61,0.36,1) ' + (240 + i * 180) + 'ms';
-          requestAnimationFrame(() => { p.style.strokeDashoffset = '0'; });
-        });
-        el.querySelectorAll('[data-simbolo]').forEach((g, i) => {
-          g.style.transition = 'opacity 500ms ease ' + (700 + i * 130) + 'ms';
-          requestAnimationFrame(() => { g.style.opacity = '1'; });
-        });
-      }
+      if (el.hasAttribute('data-quadro')) acenderQuadro(el);
 
       pend.delete(el);
       if (obs) obs.unobserve(el);
@@ -370,6 +482,67 @@ class Component extends DCLogic {
     alvos.forEach(el => obs.observe(el));
     this.observadores.push(obs);
 
+    // ── Choque na foto do Mateus, quando ela cruza o centro da tela ──
+    // Estalo curto: arcos saltando do contorno e a moldura acendendo junto.
+    // Rearma só depois que a foto se afasta bem do centro, para não repetir
+    // a cada tremida de scroll.
+    // arcos.js entra pelo <helmet>, ou seja, carrega depois deste mount:
+    // a API é procurada na hora do disparo, nunca guardada aqui.
+    const choque = document.querySelector('[data-choque]');
+    if (choque) {
+      const glow = getComputedStyle(raiz).getPropertyValue('--azul-glow').trim() || '#6FC3FF';
+      let armado = true;
+
+      this.verificarChoque = () => {
+        const arco = window.HardEletric && window.HardEletric.arco;
+        if (!arco) return;
+        const r = choque.getBoundingClientRect();
+        if (!r.width) return;
+        const dist = Math.abs((r.top + r.height / 2) - window.innerHeight / 2);
+
+        if (dist > window.innerHeight * 0.13) {
+          if (dist > window.innerHeight * 0.55) armado = true;
+          return;
+        }
+        if (!armado) return;
+        armado = false;
+
+        // Pontos espalhados pela borda: o arco salta do contorno, não do meio.
+        const pontos = [
+          [r.left, r.top + r.height * 0.24],
+          [r.right, r.top + r.height * 0.36],
+          [r.left + r.width * 0.34, r.top],
+          [r.right - r.width * 0.28, r.bottom],
+          [r.left, r.bottom - r.height * 0.20],
+          [r.right, r.top + r.height * 0.74],
+          [r.left + r.width * 0.72, r.top],
+          [r.left + r.width * 0.18, r.bottom]
+        ];
+        pontos.forEach((pt, i) => {
+          this.timers.push(setTimeout(() => arco(pt[0], pt[1], 1.1), i * 42));
+        });
+
+        choque.animate(
+          [{ boxShadow: '0 0 0 0 rgba(0,0,0,0)' },
+           { boxShadow: '0 0 26px 2px ' + glow, offset: 0.22 },
+           { boxShadow: '0 0 10px 0 ' + glow, offset: 0.5 },
+           { boxShadow: '0 0 0 0 rgba(0,0,0,0)' }],
+          { duration: 460, easing: 'ease-out' });
+      };
+
+      this.aoRolar = () => {
+        if (this.rafChoque) return;
+        this.rafChoque = requestAnimationFrame(() => {
+          this.rafChoque = 0;
+          this.verificarChoque();
+        });
+      };
+      window.addEventListener('scroll', this.aoRolar, { passive: true });
+      // Em tela alta a foto já nasce no centro. Nesse caso o estalo espera o
+      // fade dela terminar, senão os dois se atropelam na abertura da página.
+      this.timers.push(setTimeout(this.verificarChoque, 1100));
+    }
+
     requestAnimationFrame(varredura);
     if ('onscrollend' in window) {
       this.aoTerminarScroll = varredura;
@@ -388,7 +561,10 @@ class Component extends DCLogic {
   componentWillUnmount() {
     window.removeEventListener('resize', this.aoRedimensionar);
     (this.observadores || []).forEach(o => o.disconnect());
+    (this.timers || []).forEach(t => clearTimeout(t));
     if (this.rafPoll) cancelAnimationFrame(this.rafPoll);
+    if (this.rafChoque) cancelAnimationFrame(this.rafChoque);
+    if (this.aoRolar) window.removeEventListener('scroll', this.aoRolar);
     if (this.aoTerminarScroll) window.removeEventListener('scrollend', this.aoTerminarScroll);
   }
 }
