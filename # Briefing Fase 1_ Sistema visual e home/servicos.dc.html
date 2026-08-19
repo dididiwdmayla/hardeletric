@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+/* ─────────────────────────────────────────────────────────────
+   HARD ELETRIC — sistema visual (herdado da Fase 1, sem alteração)
+   Lei do projeto: nenhum hexadecimal solto fora deste bloco.
+   ───────────────────────────────────────────────────────────── */
+@font-face{
+  font-family:'DSEG7 Classic';
+  src:url('https://cdn.jsdelivr.net/npm/dseg@0.46.0/fonts/DSEG7-Classic/DSEG7Classic-Bold.woff2') format('woff2');
+  font-weight:700;font-style:normal;font-display:swap;
+}
+:root{
+  /* Base — o site é escuro por conceito, não por estilo */
+  --base-950:#080A0D;   /* fundo da página */
+  --base-900:#0E1218;   /* seções alternadas */
+  --base-800:#161C25;   /* superfícies, cards e slots de foto */
+  --base-700:#222A36;   /* bordas e divisores */
+
+  /* Instrumento — azul da logo. Como ele MEDE. */
+  --azul-instrumento:#2B8CE8;
+  --azul-glow:#6FC3FF;   /* backlight, brilho de LCD */
+  --azul-fosco:#1A4B7A;  /* estado desligado do azul */
+
+  /* Luz — o que ele ENTREGA. */
+  --ambar-luz:#E9A23B;
+  --ambar-quente:#F5C877; /* halo, brilho difuso */
+
+  /* Texto */
+  --branco:#F2F5F9;
+  --cinza-texto:#8892A0;
+  --cinza-fraco:#545E6B;
+
+  /* Tipografia */
+  --ff-display:'Archivo',system-ui,sans-serif;
+  --ff-corpo:'Archivo',system-ui,sans-serif;
+  --ff-mono:'IBM Plex Mono',ui-monospace,monospace;
+  --ff-seg:'DSEG7 Classic','IBM Plex Mono',monospace;
+  --wdth-expanded:'wdth' 125;
+  --wdth-normal:'wdth' 100;
+  --ls-mono:0.12em;
+
+  /* Escala de tipo */
+  --t-h1:clamp(2.5rem,6.4vw,5rem);
+  --t-h2:clamp(1.85rem,3.6vw,3rem);
+  --t-h3:clamp(1.15rem,1.7vw,1.5rem);
+  --t-corpo:clamp(1rem,1.15vw,1.125rem);
+  --t-mono:0.75rem;
+  --lh-titulo:1.06;
+  --lh-corpo:1.6;
+
+  /* Espaçamento, raio, medida */
+  --sp-1:0.5rem; --sp-2:0.875rem; --sp-3:1.25rem; --sp-4:2rem;
+  --sp-5:3rem; --sp-6:4.5rem; --sp-7:7rem;
+  --r-1:3px; --r-2:6px; --r-3:12px;
+  --max-w:1240px;
+  --borda:1px solid var(--base-700);
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;background:var(--base-950);color:var(--branco);
+  font-family:var(--ff-corpo);font-variation-settings:var(--wdth-normal);
+  font-size:var(--t-corpo);line-height:var(--lh-corpo);
+  -webkit-font-smoothing:antialiased;text-wrap:pretty;
+}
+h1,h2,h3,p{margin:0;}
+a{color:var(--branco);text-decoration:none;}
+a:hover{color:var(--ambar-luz);}
+:focus-visible{outline:2px solid var(--azul-instrumento);outline-offset:3px;}
+::selection{background:var(--azul-fosco);color:var(--branco);}
+</style>
+<script src="arcos.js"></script>
+</helmet>
+
+<div style="min-height:100vh;background:var(--base-950)">
+
+  <!-- símbolos de planta elétrica — sprite reutilizado nas listas -->
+  <svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true" focusable="false">
+    <symbol id="s-tomada" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+      <circle cx="12" cy="12" r="8" /><line x1="9" y1="12" x2="9" y2="15" /><line x1="15" y1="12" x2="15" y2="15" />
+    </symbol>
+    <symbol id="s-luz" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+      <circle cx="12" cy="12" r="7.5" /><line x1="6.7" y1="6.7" x2="17.3" y2="17.3" /><line x1="17.3" y1="6.7" x2="6.7" y2="17.3" />
+    </symbol>
+    <symbol id="s-interruptor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+      <line x1="2" y1="17" x2="8" y2="17" /><line x1="16" y1="17" x2="22" y2="17" /><line x1="8" y1="17" x2="16" y2="8" /><circle cx="8" cy="17" r="1.6" />
+    </symbol>
+    <symbol id="s-disjuntor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+      <rect x="4" y="7" width="16" height="10" rx="1.5" /><line x1="7" y1="16" x2="17" y2="8" />
+    </symbol>
+    <symbol id="s-duto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+      <line x1="2" y1="12" x2="22" y2="12" stroke-dasharray="4 3" /><line x1="7" y1="8" x2="7" y2="16" /><line x1="17" y1="8" x2="17" y2="16" />
+    </symbol>
+    <symbol id="s-terra" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+      <line x1="12" y1="4" x2="12" y2="12" /><line x1="5" y1="12" x2="19" y2="12" /><line x1="8" y1="16" x2="16" y2="16" /><line x1="10.5" y1="19.5" x2="13.5" y2="19.5" />
+    </symbol>
+    <symbol id="s-sensor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+      <circle cx="8" cy="12" r="3" /><path d="M13 7.5 A 6.5 6.5 0 0 1 13 16.5" /><path d="M16.5 4.5 A 10.5 10.5 0 0 1 16.5 19.5" />
+    </symbol>
+  </svg>
+
+  <header style="position:fixed;top:0;left:0;right:0;z-index:60;background:color-mix(in srgb, var(--base-950) 82%, transparent);backdrop-filter:blur(14px);border-bottom:var(--borda)">
+    <div style="max-width:var(--max-w);margin:0 auto;padding:0 var(--sp-3);height:68px;display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3)">
+      <a href="Home.dc.html" style="display:flex;align-items:center">
+        <img src="uploads/590402669_17881333944423421_7223825427814460688_n.jpg" alt="Hard Eletric" style="height:32px;width:auto;display:block;border-radius:var(--r-1)" />
+      </a>
+
+      <sc-if value="{{ larga }}" hint-placeholder-val="{{ true }}">
+        <nav style="display:flex;align-items:center;gap:var(--sp-4);font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono)">
+          <a href="Home.dc.html" style="color:var(--cinza-texto);padding:6px 0" style-hover="color:var(--branco)">Início</a>
+          <a href="servicos.dc.html" aria-current="page" style="color:var(--branco);padding:6px 0;border-bottom:1px solid var(--azul-instrumento)" style-hover="color:var(--branco)">Serviços</a>
+          <a href="projetos.dc.html" style="color:var(--cinza-texto);padding:6px 0" style-hover="color:var(--branco)">Projetos</a>
+          <a href="sobre.dc.html" style="color:var(--cinza-texto);padding:6px 0" style-hover="color:var(--branco)">Sobre</a>
+          <a href="contato.dc.html" style="color:var(--cinza-texto);padding:6px 0" style-hover="color:var(--branco)">Contato</a>
+        </nav>
+      </sc-if>
+
+      <div style="display:flex;align-items:center;gap:var(--sp-2)">
+        <a href="https://wa.me/5544998137992?text=Ol%C3%A1%2C%20Mateus.%20Vi%20a%20p%C3%A1gina%20de%20servi%C3%A7os%20e%20queria%20um%20or%C3%A7amento." target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;background:var(--ambar-luz);color:var(--base-950);font-family:var(--ff-mono);font-size:var(--t-mono);font-weight:500;text-transform:uppercase;letter-spacing:var(--ls-mono);padding:11px 16px;border-radius:var(--r-2)" style-hover="background:var(--ambar-quente);color:var(--base-950)">WhatsApp</a>
+        <sc-if value="{{ estreita }}" hint-placeholder-val="{{ false }}">
+          <button type="button" onClick="{{ alternarMenu }}" aria-label="Abrir menu" aria-expanded="{{ menuAberto }}" style="width:44px;height:44px;display:grid;place-content:center;gap:5px;background:transparent;border:var(--borda);border-radius:var(--r-2);cursor:pointer;padding:0">
+            <span style="display:block;width:18px;height:1.5px;background:var(--branco)"></span>
+            <span style="display:block;width:18px;height:1.5px;background:var(--branco)"></span>
+            <span style="display:block;width:18px;height:1.5px;background:var(--branco)"></span>
+          </button>
+        </sc-if>
+      </div>
+    </div>
+
+    <sc-if value="{{ menuAberto }}" hint-placeholder-val="{{ false }}">
+      <nav style="border-top:var(--borda);background:var(--base-900);padding:var(--sp-2) var(--sp-3) var(--sp-3);display:grid;gap:2px;font-family:var(--ff-mono);font-size:0.8rem;text-transform:uppercase;letter-spacing:var(--ls-mono)">
+        <a href="Home.dc.html" onClick="{{ fecharMenu }}" style="color:var(--cinza-texto);padding:13px 0;border-bottom:var(--borda)">Início</a>
+        <a href="servicos.dc.html" aria-current="page" onClick="{{ fecharMenu }}" style="color:var(--azul-instrumento);padding:13px 0;border-bottom:var(--borda)">Serviços</a>
+        <a href="projetos.dc.html" onClick="{{ fecharMenu }}" style="color:var(--cinza-texto);padding:13px 0;border-bottom:var(--borda)">Projetos</a>
+        <a href="sobre.dc.html" onClick="{{ fecharMenu }}" style="color:var(--cinza-texto);padding:13px 0;border-bottom:var(--borda)">Sobre</a>
+        <a href="contato.dc.html" onClick="{{ fecharMenu }}" style="color:var(--cinza-texto);padding:13px 0">Contato</a>
+      </nav>
+    </sc-if>
+  </header>
+
+  <!-- ── TOPO ─────────────────────────────────────────────── -->
+  <section data-screen-label="Topo serviços" style="background:var(--base-950);padding:calc(68px + var(--sp-7)) var(--sp-3) var(--sp-6)">
+    <div style="max-width:var(--max-w);margin:0 auto">
+      <p style="font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono);color:var(--azul-instrumento)">QUADRO DE DISTRIBUIÇÃO</p>
+      <h1 style="margin-top:var(--sp-3);font-family:var(--ff-display);font-variation-settings:var(--wdth-expanded);font-weight:700;font-size:var(--t-h1);line-height:var(--lh-titulo);letter-spacing:-0.015em;max-width:20ch">Oito circuitos. Um jeito de trabalhar.</h1>
+      <p style="margin-top:var(--sp-3);max-width:56ch;color:var(--cinza-texto);font-size:clamp(1rem,1.35vw,1.2rem)">Do ponto de tomada ao projeto de iluminação inteiro, em Maringá e Sarandi. Orçamento fechado antes de começar.</p>
+    </div>
+  </section>
+
+  <!-- ── OS OITO CIRCUITOS — percurso de eletroduto ───────── -->
+  <section data-screen-label="Circuitos" style="background:var(--base-950);padding:0 var(--sp-3) var(--sp-7)">
+    <div style="max-width:var(--max-w);margin:0 auto;position:relative">
+
+      <article data-circuito style="position:relative;padding:var(--sp-5) 0 var(--sp-5) clamp(30px,5vw,58px)">
+        <span data-seg aria-hidden="true" style="position:absolute;left:0;top:0;bottom:0;width:1px;background:var(--azul-fosco);opacity:0.6;transition:background 700ms ease,opacity 700ms ease"></span>
+        <span data-no aria-hidden="true" style="position:absolute;left:-3.5px;top:calc(var(--sp-5) + 10px);width:8px;height:8px;border-radius:50%;background:var(--base-950);border:1px solid var(--azul-fosco);transition:border-color 700ms ease,box-shadow 700ms ease"></span>
+        <p data-rotulo style="font-family:var(--ff-mono);font-size:clamp(1.1rem,2vw,1.5rem);letter-spacing:var(--ls-mono);color:var(--azul-instrumento);transition:color 700ms ease">C-01</p>
+        <h2 style="margin-top:var(--sp-2);font-family:var(--ff-display);font-variation-settings:var(--wdth-expanded);font-weight:600;font-size:var(--t-h2);line-height:var(--lh-titulo);letter-spacing:-0.01em;max-width:22ch">Instalação elétrica completa</h2>
+        <p style="margin-top:var(--sp-3);max-width:58ch;color:var(--cinza-texto)">Ponto novo, fiação, tomada e circuito dimensionado para a carga real do ambiente. Feito antes do acabamento fechar, com a infra planejada junto do projeto — não improvisada depois.</p>
+        <ul style="margin:var(--sp-4) 0 0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--sp-2) var(--sp-4);max-width:820px">
+          <li style="display:flex;align-items:center;gap:var(--sp-2);color:var(--branco);font-size:0.98rem"><svg width="19" height="19" style="flex:none;color:var(--azul-instrumento)" aria-hidden="true"><use href="#s-duto"></use></svg>Passagem de fiação e eletroduto</li>
+          <li style="display:flex;align-items:center;gap:var(--sp-2);color:var(--branco);font-size:0.98rem"><svg width="19" height="19" style="flex:none;color:var(--azul-instrumento)" aria-hidden="true"><use href="#s-tomada"></use></svg>Pontos de tomada, luz e interruptor</li>
+          <li style="display:flex;align-items:center;gap:var(--sp-2);color:var(--branco);font-size:0.98rem"><svg width="19" height="19" style="flex:none;color:var(--azul-instrumento)" aria-hidden="true"><use href="#s-disjuntor"></use></svg>Dimensionamento de bitola e disjuntor</li>
+          <li style="display:flex;align-items:center;gap:var(--sp-2);color:var(--branco);font-size:0.98rem"><svg width="19" height="19" style="flex:none;color:var(--azul-instrumento)" aria-hidden="true"><use href="#s-terra"></use></svg>Identificação de circuito no quadro</li>
+        </ul>
+        <a href="https://wa.me/5544998137992?text=Ol%C3%A1%2C%20Mateus.%20Quero%20or%C3%A7amento%20de%20instala%C3%A7%C3%A3o%20el%C3%A9trica%20completa%20%28C-01%29." target="_blank" rel="noopener" style="margin-top:var(--sp-4);display:inline-flex;align-items:center;gap:10px;font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono);color:var(--ambar-luz);border-bottom:1px solid var(--base-700);padding-bottom:6px" style-hover="color:var(--ambar-quente);border-color:var(--ambar-luz)">Falar sobre instalação completa →</a>
+      </article>
+
+      <article data-circuito style="position:relative;padding:var(--sp-5) 0 var(--sp-5) clamp(30px,5vw,58px)">
+        <span data-seg aria-hidden="true" style="position:absolute;left:0;top:0;bottom:0;width:1px;background:var(--azul-fosco);opacity:0.6;transition:background 700ms ease,opacity 700ms ease"></span>
+        <span data-no aria-hidden="true" style="position:absolute;left:-3.5px;top:calc(var(--sp-5) + 10px);width:8px;height:8px;border-radius:50%;background:var(--base-950);border:1px solid var(--azul-fosco);transition:border-color 700ms ease,box-shadow 700ms ease"></span>
+        <p data-rotulo style="font-family:var(--ff-mono);font-size:clamp(1.1rem,2vw,1.5rem);letter-spacing:var(--ls-mono);color:var(--azul-instrumento);transition:color 700ms ease">C-02</p>
+        <h2 style="margin-top:var(--sp-2);font-family:var(--ff-display);font-variation-settings:var(--wdth-expanded);font-weight:600;font-size:var(--t-h2);line-height:var(--lh-titulo);letter-spacing:-0.01em;max-width:22ch">Iluminação arquitetural</h2>
+        <p style="margin-top:var(--sp-3);max-width:58ch;color:var(--cinza-texto)">Fita LED, perfil linear, embutido e sanca. A parte que decide se o ambiente vai ficar bonito ou só claro: temperatura de cor, posição do rasgo e recuo do perfil para a luz varrer a superfície sem mostrar o ponto.</p>
+        <ul style="margin:var(--sp-4) 0 0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--sp-2) var(--sp-4);max-width:820px">
+          <li style="display:flex;align-items:center;gap:var(--sp-2);color:var(--branco);font-size:0.98rem"><svg width="19" height="19" style="flex:none;color:var(--azul-instrumento)" aria-hidden="true"><use href="#s-luz"></use></svg>Fita LED em sanca, nicho e rodapé</li>
+          <li style="display:flex;align-items:center;gap:var(--sp-2);color:var(--branco);font-size:0.98rem"><svg width="19" height="19" style="flex:none;color:var(--azul-instrumento)" aria-hidden="true"><use href="#s-duto"></use></svg>Perfil linear embutido e de sobrepor</li>
+          <li style="display:flex;align-items:center;gap:var(--sp-2);color:var(--branco);font-size:0.98rem"><svg width="19" height="19" style="flex:none;color:var(--azul-instrumento)" aria-hidden="true"><use href="#s-luz"></use></svg>Spot direcionável e luz de destaque</li>
+          <li style="display:flex;align-items:center;gap:var(--sp-2);color:var(--branco);font-size:0.98rem"><svg width="19" height="19" style="flex:none;color:var(--azul-instrumento)" aria-hidden="true"><use href="#s-interruptor"></use></svg>Alinhamento com projeto de arquitetura</li>
+        </ul>
+        <a href="https://wa.me/5544998137992?text=Ol%C3%A1%2C%20Mateus.%20Quero%20falar%20sobre%20ilumina%C3%A7%C3%A3o%20arquitetural%20%28C-02%29." target="_blank" rel="noopener" style="margin-top:var(--sp-4);display:inline-flex;align-items:center;gap:10px;font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono);color:var(--ambar-luz);border-bottom:1px solid var(--base-700);padding-bottom:6px" style-hover="color:var(--ambar-quente);border-color:var(--ambar-luz)">Falar sobre iluminação →</a>
+      </article>
+
+      <article data-circuito style="position:relative;padding:var(--sp-5) 0 var(--sp-5) clamp(30px,5vw,58px)">
+        <span data-seg aria-hidden="true" style="position:absolute;left:0;top:0;bottom:0;width:1px;background:var(--azul-fosco);opacity:0.6;transition:background 700ms ease,opacity 700ms ease"></span>
+        <span data-no aria-hidden="true" style="position:absolute;left:-3.5px;top:calc(var(--sp-5) + 10px);width:8px;height:8px;border-radius:50%;background:var(--base-950);border:1px solid var(--azul-fosco);transition:border-color 700ms ease,box-shadow 700ms ease"></span>
+        <p data-rotulo style="font-family:var(--ff-mono);font-size:clamp(1.1rem,2vw,1.5rem);letter-spacing:var(--ls-mono);color:var(--azul-instrumento);transition:color 700ms ease">C-03</p>
+        <h2 style="margin-top:var(--sp-2);font-family:var(--ff-display);font-variation-settings:var(--wdth-expanded);font-weight:600;font-size:var(--t-h2);line-height:var(--lh-titulo);letter-spacing:-0.01em;max-width:22ch">Quadro de distribuição</h2>
+        <p style="margin-top:var(--sp-3);max-width:58ch;color:var(--cinza-texto)">Montagem e organização do quadro, com fiação separada por trajeto e cor, e cada circuito identificado na porta. É o que ninguém vê e o que decide quanto tempo leva para achar um problema depois.</p>
+        <ul style="margin:var(--sp-4) 0 0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--sp-2) var(--sp-4);max-width:820px">
+          <li style="display:flex;align-items:center;gap:var(--sp-2);color:var(--branco);font-size:0.98rem"><svg width="19" height="19" style="flex:none;color:var(--azul-instrumento)" aria-hidden="true"><use href="#s-disjuntor"></use></svg>Montagem e troca de quadro</li>
+          <li style="display:flex;align-items:center;gap:var(--sp-2);color:var(--branco);font-size:0.98rem"><svg width="19" height="19" style="flex:none;color:var(--azul-instrumento)" aria-hidden="true"><use href="#s-duto"></use></svg>Organização e identificação de circuitos</li>
+          <li style="display:flex;align-items:center;gap:var(--sp-2);color:var(--branco);font-size:0.98rem"><svg width="19" height="19" style="flex:none;color:var(--azul-instrumento)" aria-hidden="true"><use href="#s-disjuntor"></use></svg>Disjuntores e DR dimensionados</li>
+          <li style="display:flex;align-items:center;gap:var(--sp-2);color:var(--branco);font-size:0.98rem"><svg width="19" height="19" style="flex:none;color:var(--azul-instrumento)" aria-hidden="true"><use href="#s-terra"></use></svg>Aterramento</li>
+        </ul>
+        <a href="https://wa.me/5544998137992?text=Ol%C3%A1%2C%20Mateus.%20Preciso%20montar%20ou%20organizar%20um%20quadro%20de%20distribui%C3%A7%C3%A3o%20%28C-03%29." target="_blank" rel="noopener" style="margin-top:var(--sp-4);display:inline-flex;align-items:center;gap:10px;font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono);color:var(--ambar-luz);border-bottom:1px solid var(--base-700);padding-bottom:6px" style-hover="color:var(--ambar-quente);border-color:var(--ambar-luz)">Falar sobre quadro →</a>
+      </article>
+
+      <article data-circuito style="position:relative;padding:var(--sp-5) 0 var(--sp-5) clamp(30px,5vw,58px)">
+        <span data-seg aria-hidden="true" style="position:absolute;left:0;top:0;bottom:0;width:1px;background:var(--azul-fosco);opacity:0.6;transition:background 700ms ease,opacity 700ms ease"></span>
+        <span data-no aria-hidden="true" style="position:absolute;left:-3.5px;top:calc(var(--sp-5) + 10px);width:8px;height:8px;border-radius:50%;background:var(--base-950);border:1px solid var(--azul-fosco);transition:border-color 700ms ease,box-shadow 700ms ease"></span>
+        <p data-rotulo style="font-family:var(--ff-mono);font-size:clamp(1.1rem,2vw,1.5rem);letter-spacing:var(--ls-mono);color:var(--azul-instrumento);transition:color 700ms ease">C-04</p>
+        <h2 style="margin-top:var(--sp-2);font-family:var(--ff-display);font-variation-settings:var(--wdth-expanded);font-weight:600;font-size:var(--t-h2);line-height:var(--lh-titulo);letter-spacing:-0.01em;max-width:22ch">Manutenção e reparo</h2>
+        <p style="margin-top:var(--sp-3);max-width:58ch;color:var(--cinza-texto)">Disjuntor desarmando sem motivo aparente, tomada que parou, ponto sem energia, luz piscando. Diagnóstico antes de trocar peça — o sintoma quase nunca está onde o problema está.</p>
+        <ul style="margin:var(--sp-4) 0 0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--sp-2) var(--sp-4);max-width:820px">
+          <li style="display:flex;align-items:center;gap:var(--sp-2);color:var(--branco);font-size:0.98rem"><svg width="19" height="19" style="flex:none;color:var(--azul-instrumento)" aria-hidden="true"><use href="#s-sensor"></use></svg>Diagnóstico com instrumento</li>
+          <li style="display:flex;align-items:center;gap:var(--sp-2);color:var(--branco);font-size:0.98rem"><svg width="19" height="19" style="flex:none;color:var(--azul-instrumento)" aria-hidden="true"><use href="#s-disjuntor"></use></svg>Curto-circuito e fuga de corrente</li>
+          <li style="display:flex;align-items:center;gap:var(--sp-2);color:var(--branco);font-size:0.98rem"><svg width="19" height="19" style="flex:none;color:var(--azul-instrumento)" aria-hidden="true"><use href="#s-tomada"></use></svg>Troca de tomada, interruptor e ponto</li>
+          <li style="display:flex;align-items:center;gap:var(--sp-2);color:var(--branco);font-size:0.98rem"><svg width="19" height="19" style="flex:none;color:var(--azul-instrumento)" aria-hidden="true"><use href="#s-duto"></use></svg>Revisão de instalação antiga</li>
+        </ul>
+        <a href="https://wa.me/5544998137992?text=Ol%C3%A1%2C%20Mateus.%20Tenho%20um%20problema%20el%C3%A9trico%20para%20reparo%20%28C-04%29." target="_blank" rel="noopener" style="margin-top:var(--sp-4);display:inline-flex;align-items:center;gap:10px;font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono);color:var(--ambar-luz);border-bottom:1px solid var(--base-700);padding-bottom:6px" style-hover="color:var(--ambar-quente);border-color:var(--ambar-luz)">Chamar para reparo →</a>
+      </article>
+
+      <article data-circuito style="position:relative;padding:var(--sp-5) 0 var(--sp-5) clamp(30px,5vw,58px)">
+        <span data-seg aria-hidden="true" style="position:absolute;left:0;top:0;bottom:0;width:1px;background:var(--azul-fosco);opacity:0.6;transition:background 700ms ease,opacity 700ms ease"></span>
+        <span data-no aria-hidden="true" style="position:absolute;left:-3.5px;top:calc(var(--sp-5) + 10px);width:8px;height:8px;border-radius:50%;background:var(--base-950);border:1px solid var(--azul-fosco);transition:border-color 700ms ease,box-shadow 700ms ease"></span>
+        <p data-rotulo style="font-family:var(--ff-mono);font-size:clamp(1.1rem,2vw,1.5rem);letter-spacing:var(--ls-mono);color:var(--azul-instrumento);transition:color 700ms ease">C-05</p>
+        <h2 style="margin-top:var(--sp-2);font-family:var(--ff-display);font-variation-settings:var(--wdth-expanded);font-weight:600;font-size:var(--t-h2);line-height:var(--lh-titulo);letter-spacing:-0.01em;max-width:22ch">Automação residencial</h2>
+        <p style="margin-top:var(--sp-3);max-width:58ch;color:var(--cinza-texto)">Comando de luz por celular, cena programada, sensor de presença e temporizador. Instalado sobre uma elétrica que suporta — automação em instalação ruim só deixa o problema mais difícil de achar.</p>
+        <ul style="margin:var(--sp-4) 0 0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--sp-2) var(--sp-4);max-width:820px">
+          <li style="display:flex;align-items:center;gap:var(--sp-2);color:var(--branco);font-size:0.98rem"><svg width="19" height="19" style="flex:none;color:var(--azul-instrumento)" aria-hidden="true"><use href="#s-interruptor"></use></svg>Interruptor e módulo inteligente</li>
+          <li style="display:flex;align-items:center;gap:var(--sp-2);color:var(--branco);font-size:0.98rem"><svg width="19" height="19" style="flex:none;color:var(--azul-instrumento)" aria-hidden="true"><use href="#s-luz"></use></svg>Cena de iluminação</li>
+          <li style="display:flex;align-items:center;gap:var(--sp-2);color:var(--branco);font-size:0.98rem"><svg width="19" height="19" style="flex:none;color:var(--azul-instrumento)" aria-hidden="true"><use href="#s-sensor"></use></svg>Sensor de presença e fotocélula</li>
+          <li style="display:flex;align-items:center;gap:var(--sp-2);color:var(--branco);font-size:0.98rem"><svg width="19" height="19" style="flex:none;color:var(--azul-instrumento)" aria-hidden="true"><use href="#s-sensor"></use></svg>Integração com assistente de voz</li>
+        </ul>
+        <a href="https://wa.me/5544998137992?text=Ol%C3%A1%2C%20Mateus.%20Quero%20automa%C3%A7%C3%A3o%20residencial%20%28C-05%29." target="_blank" rel="noopener" style="margin-top:var(--sp-4);display:inline-flex;align-items:center;gap:10px;font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono);color:var(--ambar-luz);border-bottom:1px solid var(--base-700);padding-bottom:6px" style-hover="color:var(--ambar-quente);border-color:var(--ambar-luz)">Falar sobre automação →</a>
+      </article>
+
+      <article data-circuito style="position:relative;padding:var(--sp-5) 0 var(--sp-5) clamp(30px,5vw,58px)">
+        <span data-seg aria-hidden="true" style="position:absolute;left:0;top:0;bottom:0;width:1px;background:var(--azul-fosco);opacity:0.6;transition:background 700ms ease,opacity 700ms ease"></span>
+        <span data-no aria-hidden="true" style="position:absolute;left:-3.5px;top:calc(var(--sp-5) + 10px);width:8px;height:8px;border-radius:50%;background:var(--base-950);border:1px solid var(--azul-fosco);transition:border-color 700ms ease,box-shadow 700ms ease"></span>
+        <p data-rotulo style="font-family:var(--ff-mono);font-size:clamp(1.1rem,2vw,1.5rem);letter-spacing:var(--ls-mono);color:var(--azul-instrumento);transition:color 700ms ease">C-06</p>
+        <h2 style="margin-top:var(--sp-2);font-family:var(--ff-display);font-variation-settings:var(--wdth-expanded);font-weight:600;font-size:var(--t-h2);line-height:var(--lh-titulo);letter-spacing:-0.01em;max-width:22ch">Infraestrutura e conduíte</h2>
+        <p style="margin-top:var(--sp-3);max-width:58ch;color:var(--cinza-texto)">Eletroduto, caixa e passagem executados antes do gesso e do revestimento fecharem. Feito na hora certa, evita rasgo em parede pronta e retrabalho de acabamento.</p>
+        <ul style="margin:var(--sp-4) 0 0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--sp-2) var(--sp-4);max-width:820px">
+          <li style="display:flex;align-items:center;gap:var(--sp-2);color:var(--branco);font-size:0.98rem"><svg width="19" height="19" style="flex:none;color:var(--azul-instrumento)" aria-hidden="true"><use href="#s-duto"></use></svg>Rasgo e passagem de eletroduto</li>
+          <li style="display:flex;align-items:center;gap:var(--sp-2);color:var(--branco);font-size:0.98rem"><svg width="19" height="19" style="flex:none;color:var(--azul-instrumento)" aria-hidden="true"><use href="#s-disjuntor"></use></svg>Caixas de passagem e derivação</li>
+          <li style="display:flex;align-items:center;gap:var(--sp-2);color:var(--branco);font-size:0.98rem"><svg width="19" height="19" style="flex:none;color:var(--azul-instrumento)" aria-hidden="true"><use href="#s-luz"></use></svg>Infra para forro e drywall</li>
+          <li style="display:flex;align-items:center;gap:var(--sp-2);color:var(--branco);font-size:0.98rem"><svg width="19" height="19" style="flex:none;color:var(--azul-instrumento)" aria-hidden="true"><use href="#s-tomada"></use></svg>Previsão de ponto futuro</li>
+        </ul>
+        <a href="https://wa.me/5544998137992?text=Ol%C3%A1%2C%20Mateus.%20Preciso%20de%20infraestrutura%20e%20condu%C3%ADte%20%28C-06%29." target="_blank" rel="noopener" style="margin-top:var(--sp-4);display:inline-flex;align-items:center;gap:10px;font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono);color:var(--ambar-luz);border-bottom:1px solid var(--base-700);padding-bottom:6px" style-hover="color:var(--ambar-quente);border-color:var(--ambar-luz)">Falar sobre infraestrutura →</a>
+      </article>
+
+      <article data-circuito style="position:relative;padding:var(--sp-5) 0 var(--sp-5) clamp(30px,5vw,58px)">
+        <span data-seg aria-hidden="true" style="position:absolute;left:0;top:0;bottom:0;width:1px;background:var(--azul-fosco);opacity:0.6;transition:background 700ms ease,opacity 700ms ease"></span>
+        <span data-no aria-hidden="true" style="position:absolute;left:-3.5px;top:calc(var(--sp-5) + 10px);width:8px;height:8px;border-radius:50%;background:var(--base-950);border:1px solid var(--azul-fosco);transition:border-color 700ms ease,box-shadow 700ms ease"></span>
+        <p data-rotulo style="font-family:var(--ff-mono);font-size:clamp(1.1rem,2vw,1.5rem);letter-spacing:var(--ls-mono);color:var(--azul-instrumento);transition:color 700ms ease">C-07</p>
+        <h2 style="margin-top:var(--sp-2);font-family:var(--ff-display);font-variation-settings:var(--wdth-expanded);font-weight:600;font-size:var(--t-h2);line-height:var(--lh-titulo);letter-spacing:-0.01em;max-width:22ch">Chuveiro e aquecimento</h2>
+        <p style="margin-top:var(--sp-3);max-width:58ch;color:var(--cinza-texto)">Circuito próprio, bitola correta e disjuntor compatível. É a carga mais pesada da casa e a causa mais comum de fiação aquecendo em instalação antiga.</p>
+        <ul style="margin:var(--sp-4) 0 0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--sp-2) var(--sp-4);max-width:820px">
+          <li style="display:flex;align-items:center;gap:var(--sp-2);color:var(--branco);font-size:0.98rem"><svg width="19" height="19" style="flex:none;color:var(--azul-instrumento)" aria-hidden="true"><use href="#s-disjuntor"></use></svg>Circuito exclusivo dimensionado</li>
+          <li style="display:flex;align-items:center;gap:var(--sp-2);color:var(--branco);font-size:0.98rem"><svg width="19" height="19" style="flex:none;color:var(--azul-instrumento)" aria-hidden="true"><use href="#s-tomada"></use></svg>Troca e instalação de chuveiro</li>
+          <li style="display:flex;align-items:center;gap:var(--sp-2);color:var(--branco);font-size:0.98rem"><svg width="19" height="19" style="flex:none;color:var(--azul-instrumento)" aria-hidden="true"><use href="#s-duto"></use></svg>Revisão de fiação e disjuntor</li>
+          <li style="display:flex;align-items:center;gap:var(--sp-2);color:var(--branco);font-size:0.98rem"><svg width="19" height="19" style="flex:none;color:var(--azul-instrumento)" aria-hidden="true"><use href="#s-terra"></use></svg>Aquecedor e torneira elétrica</li>
+        </ul>
+        <a href="https://wa.me/5544998137992?text=Ol%C3%A1%2C%20Mateus.%20Preciso%20de%20circuito%20para%20chuveiro%20ou%20aquecimento%20%28C-07%29." target="_blank" rel="noopener" style="margin-top:var(--sp-4);display:inline-flex;align-items:center;gap:10px;font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono);color:var(--ambar-luz);border-bottom:1px solid var(--base-700);padding-bottom:6px" style-hover="color:var(--ambar-quente);border-color:var(--ambar-luz)">Falar sobre chuveiro →</a>
+      </article>
+
+      <article data-circuito style="position:relative;padding:var(--sp-5) 0 var(--sp-5) clamp(30px,5vw,58px)">
+        <span data-seg aria-hidden="true" style="position:absolute;left:0;top:0;height:calc(var(--sp-5) + 14px);width:1px;background:var(--azul-fosco);opacity:0.6;transition:background 700ms ease,opacity 700ms ease"></span>
+        <span data-no aria-hidden="true" style="position:absolute;left:-3.5px;top:calc(var(--sp-5) + 10px);width:8px;height:8px;border-radius:50%;background:var(--base-950);border:1px solid var(--azul-fosco);transition:border-color 700ms ease,box-shadow 700ms ease"></span>
+        <p data-rotulo style="font-family:var(--ff-mono);font-size:clamp(1.1rem,2vw,1.5rem);letter-spacing:var(--ls-mono);color:var(--azul-instrumento);transition:color 700ms ease">C-08</p>
+        <h2 style="margin-top:var(--sp-2);font-family:var(--ff-display);font-variation-settings:var(--wdth-expanded);font-weight:600;font-size:var(--t-h2);line-height:var(--lh-titulo);letter-spacing:-0.01em;max-width:22ch">Comercial e loja</h2>
+        <p style="margin-top:var(--sp-3);max-width:58ch;color:var(--cinza-texto)">Iluminação de vitrine, painel e área de venda, com reforço de carga quando o ponto existente não sustenta. Executado com a operação rodando, ou fora do horário quando não dá.</p>
+        <ul style="margin:var(--sp-4) 0 0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--sp-2) var(--sp-4);max-width:820px">
+          <li style="display:flex;align-items:center;gap:var(--sp-2);color:var(--branco);font-size:0.98rem"><svg width="19" height="19" style="flex:none;color:var(--azul-instrumento)" aria-hidden="true"><use href="#s-luz"></use></svg>Iluminação de vitrine e prateleira</li>
+          <li style="display:flex;align-items:center;gap:var(--sp-2);color:var(--branco);font-size:0.98rem"><svg width="19" height="19" style="flex:none;color:var(--azul-instrumento)" aria-hidden="true"><use href="#s-duto"></use></svg>Trilho eletrificado e spot</li>
+          <li style="display:flex;align-items:center;gap:var(--sp-2);color:var(--branco);font-size:0.98rem"><svg width="19" height="19" style="flex:none;color:var(--azul-instrumento)" aria-hidden="true"><use href="#s-disjuntor"></use></svg>Reforço de carga e novo circuito</li>
+          <li style="display:flex;align-items:center;gap:var(--sp-2);color:var(--branco);font-size:0.98rem"><svg width="19" height="19" style="flex:none;color:var(--azul-instrumento)" aria-hidden="true"><use href="#s-sensor"></use></svg>Manutenção com loja em funcionamento</li>
+        </ul>
+        <a href="https://wa.me/5544998137992?text=Ol%C3%A1%2C%20Mateus.%20%C3%89%20para%20um%20ponto%20comercial%20ou%20loja%20%28C-08%29." target="_blank" rel="noopener" style="margin-top:var(--sp-4);display:inline-flex;align-items:center;gap:10px;font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono);color:var(--ambar-luz);border-bottom:1px solid var(--base-700);padding-bottom:6px" style-hover="color:var(--ambar-quente);border-color:var(--ambar-luz)">Falar sobre loja →</a>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ── FECHO ────────────────────────────────────────────── -->
+  <section data-screen-label="CTA final" style="background:var(--base-800);border-top:var(--borda);padding:var(--sp-6) var(--sp-3)">
+    <div style="max-width:var(--max-w);margin:0 auto;display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:var(--sp-4)">
+      <div style="display:grid;gap:var(--sp-2);min-width:min(100%,340px)">
+        <h2 style="font-family:var(--ff-display);font-variation-settings:var(--wdth-expanded);font-weight:600;font-size:var(--t-h2);line-height:var(--lh-titulo);letter-spacing:-0.01em">Diz qual circuito é o seu.</h2>
+        <a href="tel:+5544998137992" style="font-family:var(--ff-display);font-variation-settings:var(--wdth-expanded);font-weight:700;font-size:clamp(1.7rem,4.2vw,3rem);line-height:1.1;color:var(--ambar-luz)" style-hover="color:var(--ambar-quente)">(44) 99813-7992</a>
+        <p style="font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono);color:var(--cinza-texto)">Maringá e Sarandi · atendimento flexível, chame a qualquer hora</p>
+      </div>
+      <a href="https://wa.me/5544998137992?text=Ol%C3%A1%2C%20Mateus.%20Quero%20or%C3%A7amento%20de%20um%20servi%C3%A7o%20el%C3%A9trico." target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:10px;background:var(--ambar-luz);color:var(--base-950);font-family:var(--ff-mono);font-size:0.8rem;font-weight:500;text-transform:uppercase;letter-spacing:var(--ls-mono);padding:18px 28px;border-radius:var(--r-2)" style-hover="background:var(--ambar-quente);color:var(--base-950)">Chamar no WhatsApp</a>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ───────────────────────────────────────────── -->
+  <footer style="background:var(--base-950);border-top:var(--borda);padding:var(--sp-6) var(--sp-3) var(--sp-4)">
+    <div style="max-width:var(--max-w);margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:var(--sp-4)">
+      <div style="display:grid;gap:var(--sp-2);align-content:start">
+        <img src="uploads/590402669_17881333944423421_7223825427814460688_n.jpg" alt="Hard Eletric" style="height:40px;width:auto;display:block;border-radius:var(--r-1)" />
+        <p style="color:var(--cinza-texto);font-size:0.95rem;max-width:34ch">Mateus Th. — eletricista residencial e comercial. Instalação, manutenção e iluminação arquitetural.</p>
+      </div>
+      <div style="display:grid;gap:var(--sp-2);align-content:start;font-size:0.95rem">
+        <p style="font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono);color:var(--cinza-fraco)">NAVEGAÇÃO</p>
+        <a href="Home.dc.html" style="color:var(--cinza-texto)" style-hover="color:var(--branco)">Início</a>
+        <a href="servicos.dc.html" style="color:var(--cinza-texto)" style-hover="color:var(--branco)">Serviços</a>
+        <a href="projetos.dc.html" style="color:var(--cinza-texto)" style-hover="color:var(--branco)">Projetos</a>
+        <a href="sobre.dc.html" style="color:var(--cinza-texto)" style-hover="color:var(--branco)">Sobre</a>
+        <a href="contato.dc.html" style="color:var(--cinza-texto)" style-hover="color:var(--branco)">Contato</a>
+      </div>
+      <div style="display:grid;gap:var(--sp-2);align-content:start;font-size:0.95rem">
+        <p style="font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono);color:var(--cinza-fraco)">CONTATO</p>
+        <a href="https://wa.me/5544998137992" target="_blank" rel="noopener" style="color:var(--cinza-texto)" style-hover="color:var(--branco)">WhatsApp (44) 99813-7992</a>
+        <a href="https://instagram.com/hard.eletric" target="_blank" rel="noopener" style="color:var(--cinza-texto)" style-hover="color:var(--branco)">@hard.eletric</a>
+      </div>
+      <div style="display:grid;gap:var(--sp-2);align-content:start;font-size:0.95rem">
+        <p style="font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono);color:var(--cinza-fraco)">ÁREA DE ATENDIMENTO</p>
+        <p style="color:var(--cinza-texto)">Maringá e Sarandi, PR</p>
+        <p style="color:var(--cinza-texto)">Atendimento flexível</p>
+      </div>
+    </div>
+    <div style="max-width:var(--max-w);margin:var(--sp-4) auto 0;padding-top:var(--sp-3);border-top:var(--borda);display:flex;flex-wrap:wrap;gap:var(--sp-2);justify-content:space-between;font-family:var(--ff-mono);font-size:var(--t-mono);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--cinza-fraco)">
+      <p>© 2026 Hard Eletric · Maringá, PR</p>
+      <p>Site feito por <a href="https://meu-portfoliowilldev.vercel.app" target="_blank" rel="noopener" style="color:var(--cinza-fraco);border-bottom:1px solid var(--base-700)" style-hover="color:var(--cinza-texto)">Willian Softwares</a></p>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;azulInstrumento&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#2B8CE8&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Sistema&quot;,&quot;options&quot;:[&quot;#2B8CE8&quot;,&quot;#1E7FD6&quot;,&quot;#3A9BF0&quot;,&quot;#0F6FC4&quot;]},&quot;ambarLuz&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#E9A23B&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Sistema&quot;,&quot;options&quot;:[&quot;#E9A23B&quot;,&quot;#F0B24E&quot;,&quot;#DE8F2A&quot;]},&quot;animacoes&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Comportamento&quot;}}">
+class Component extends DCLogic {
+  state = {
+    larga: typeof window === 'undefined' ? true : window.innerWidth >= 900,
+    menuAberto: false
+  };
+
+  renderVals() {
+    return {
+      larga: this.state.larga,
+      estreita: !this.state.larga,
+      menuAberto: this.state.menuAberto && !this.state.larga,
+      alternarMenu: () => this.setState(s => ({ menuAberto: !s.menuAberto })),
+      fecharMenu: () => this.setState({ menuAberto: false })
+    };
+  }
+
+  componentDidMount() {
+    this.aoRedimensionar = () => {
+      const larga = window.innerWidth >= 900;
+      if (larga !== this.state.larga) this.setState({ larga, menuAberto: false });
+    };
+    window.addEventListener('resize', this.aoRedimensionar);
+
+    const raiz = document.documentElement;
+    if (this.props.azulInstrumento) raiz.style.setProperty('--azul-instrumento', this.props.azulInstrumento);
+    if (this.props.ambarLuz) raiz.style.setProperty('--ambar-luz', this.props.ambarLuz);
+
+    const blocos = Array.from(document.querySelectorAll('[data-circuito]'));
+
+    // Estado de falha: sem JS ou com prefers-reduced-motion, a página aparece LIGADA.
+    const semMovimento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (semMovimento || this.props.animacoes === false) return;
+
+    this.observadores = [];
+
+    blocos.forEach(el => {
+      el.style.opacity = '0.42';
+      el.style.filter = 'saturate(0.25)';
+      el.style.transform = 'translateY(14px)';
+      el.style.transition = 'opacity 700ms ease, filter 700ms ease, transform 700ms cubic-bezier(0.22,0.61,0.36,1)';
+      el.style.willChange = 'opacity, transform';
+    });
+
+    // Regra do circuito fechado: o bloco na faixa central está ligado — e o
+    // segmento de eletroduto à esquerda acende, formando o percurso.
+    const pend = new Set(blocos);
+    const bandaBase = () => window.innerHeight * 0.65; // base da faixa central
+    let obs;
+
+    const ligar = el => {
+      el.style.opacity = '1';
+      el.style.filter = 'saturate(1)';
+      el.style.transform = 'translateY(0)';
+      el.style.willChange = 'auto';
+
+      const seg = el.querySelector('[data-seg]');
+      if (seg) { seg.style.background = 'var(--azul-glow)'; seg.style.opacity = '1'; }
+      const no = el.querySelector('[data-no]');
+      if (no) {
+        no.style.borderColor = 'var(--azul-glow)';
+        no.style.boxShadow = '0 0 0 3px color-mix(in srgb, var(--azul-glow) 22%, transparent)';
+      }
+      const rotulo = el.querySelector('[data-rotulo]');
+      if (rotulo) rotulo.style.color = 'var(--azul-glow)';
+
+      pend.delete(el);
+      if (obs) obs.unobserve(el);
+    };
+
+    // Varredura: acende todo pendente cujo topo já entrou (ou passou) a faixa.
+    // O observador só reporta MUDANÇA de interseção; num salto de scroll o
+    // bloco pula de "abaixo" para "acima" sem gerar callback nenhuma.
+    const varredura = () => {
+      Array.from(pend).forEach(el => {
+        if (el.getBoundingClientRect().top < bandaBase()) ligar(el);
+      });
+    };
+
+    obs = new IntersectionObserver(entradas => {
+      entradas.forEach(e => { if (e.isIntersecting && pend.has(e.target)) ligar(e.target); });
+      varredura();
+    }, { root: null, rootMargin: '-35% 0px -35% 0px', threshold: 0 });
+
+    blocos.forEach(el => obs.observe(el));
+    this.observadores.push(obs);
+
+    // Rede de segurança: primeiro quadro (deep-link, posição restaurada) e fim
+    // de cada salto de scroll. Evento único, não listener por frame.
+    requestAnimationFrame(varredura);
+    if ('onscrollend' in window) {
+      this.aoTerminarScroll = varredura;
+      window.addEventListener('scrollend', this.aoTerminarScroll);
+    } else {
+      let ultimo = window.scrollY;
+      const poll = () => {
+        if (!pend.size) return;
+        if (window.scrollY !== ultimo) { ultimo = window.scrollY; varredura(); }
+        this.rafPoll = requestAnimationFrame(poll);
+      };
+      this.rafPoll = requestAnimationFrame(poll);
+    }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.aoRedimensionar);
+    (this.observadores || []).forEach(o => o.disconnect());
+    if (this.rafPoll) cancelAnimationFrame(this.rafPoll);
+    if (this.aoTerminarScroll) window.removeEventListener('scrollend', this.aoTerminarScroll);
+  }
+}
+</script>
+</body>
+</html>

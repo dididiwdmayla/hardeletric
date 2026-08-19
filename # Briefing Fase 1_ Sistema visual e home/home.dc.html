@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+/* ─────────────────────────────────────────────────────────────
+   HARD ELETRIC — sistema visual (Fase 1)
+   Lei do projeto: nenhum hexadecimal solto fora deste bloco.
+   ───────────────────────────────────────────────────────────── */
+@font-face{
+  font-family:'DSEG7 Classic';
+  src:url('https://cdn.jsdelivr.net/npm/dseg@0.46.0/fonts/DSEG7-Classic/DSEG7Classic-Bold.woff2') format('woff2');
+  font-weight:700;font-style:normal;font-display:swap;
+}
+:root{
+  /* Base — o site é escuro por conceito, não por estilo */
+  --base-950:#080A0D;   /* fundo da página */
+  --base-900:#0E1218;   /* seções alternadas */
+  --base-800:#161C25;   /* superfícies, cards e slots de foto */
+  --base-700:#222A36;   /* bordas e divisores */
+
+  /* Instrumento — azul da logo. Como ele MEDE. */
+  --azul-instrumento:#2B8CE8;
+  --azul-glow:#6FC3FF;   /* backlight, brilho de LCD */
+  --azul-fosco:#1A4B7A;  /* estado desligado do azul */
+
+  /* Luz — o que ele ENTREGA. */
+  --ambar-luz:#E9A23B;
+  --ambar-quente:#F5C877; /* halo, brilho difuso */
+
+  /* Texto */
+  --branco:#F2F5F9;
+  --cinza-texto:#8892A0;
+  --cinza-fraco:#545E6B;
+
+  /* Tipografia */
+  --ff-display:'Archivo',system-ui,sans-serif;
+  --ff-corpo:'Archivo',system-ui,sans-serif;
+  --ff-mono:'IBM Plex Mono',ui-monospace,monospace;
+  --ff-seg:'DSEG7 Classic','IBM Plex Mono',monospace;
+  --wdth-expanded:'wdth' 125;
+  --wdth-normal:'wdth' 100;
+  --ls-mono:0.12em;
+
+  /* Escala de tipo */
+  --t-h1:clamp(2.5rem,6.4vw,5rem);
+  --t-h2:clamp(1.85rem,3.6vw,3rem);
+  --t-h3:clamp(1.15rem,1.7vw,1.5rem);
+  --t-corpo:clamp(1rem,1.15vw,1.125rem);
+  --t-mono:0.75rem;
+  --lh-titulo:1.06;
+  --lh-corpo:1.6;
+
+  /* Espaçamento, raio, medida */
+  --sp-1:0.5rem; --sp-2:0.875rem; --sp-3:1.25rem; --sp-4:2rem;
+  --sp-5:3rem; --sp-6:4.5rem; --sp-7:7rem;
+  --r-1:3px; --r-2:6px; --r-3:12px;
+  --max-w:1240px;
+  --borda:1px solid var(--base-700);
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;background:var(--base-950);color:var(--branco);
+  font-family:var(--ff-corpo);font-variation-settings:var(--wdth-normal);
+  font-size:var(--t-corpo);line-height:var(--lh-corpo);
+  -webkit-font-smoothing:antialiased;text-wrap:pretty;
+}
+h1,h2,h3,p{margin:0;}
+a{color:var(--branco);text-decoration:none;}
+a:hover{color:var(--ambar-luz);}
+:focus-visible{outline:2px solid var(--azul-instrumento);outline-offset:3px;}
+::selection{background:var(--azul-fosco);color:var(--branco);}
+/* flicker de LCD — 3 keyframes, nada mais elaborado */
+@keyframes mm-flicker{0%{opacity:0}20%{opacity:.5}38%{opacity:.06}56%{opacity:.55}100%{opacity:.42}}
+</style>
+<script src="arcos.js"></script>
+</helmet>
+
+<div style="min-height:100vh;background:var(--base-950)">
+
+  <header style="position:fixed;top:0;left:0;right:0;z-index:60;background:color-mix(in srgb, var(--base-950) 82%, transparent);backdrop-filter:blur(14px);border-bottom:var(--borda)">
+    <div style="max-width:var(--max-w);margin:0 auto;padding:0 var(--sp-3);height:68px;display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3)">
+      <a href="Home.dc.html" style="display:flex;align-items:center">
+        <img src="uploads/590402669_17881333944423421_7223825427814460688_n.jpg" alt="Hard Eletric" style="height:32px;width:auto;display:block;border-radius:var(--r-1)" />
+      </a>
+
+      <sc-if value="{{ larga }}" hint-placeholder-val="{{ true }}">
+        <nav style="display:flex;align-items:center;gap:var(--sp-4);font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono)">
+          <a href="Home.dc.html" style="color:var(--cinza-texto);padding:6px 0" style-hover="color:var(--branco)">Início</a>
+          <a href="servicos.dc.html" style="color:var(--cinza-texto);padding:6px 0" style-hover="color:var(--branco)">Serviços</a>
+          <a href="projetos.dc.html" style="color:var(--cinza-texto);padding:6px 0" style-hover="color:var(--branco)">Projetos</a>
+          <a href="sobre.dc.html" style="color:var(--cinza-texto);padding:6px 0" style-hover="color:var(--branco)">Sobre</a>
+          <a href="contato.dc.html" style="color:var(--cinza-texto);padding:6px 0" style-hover="color:var(--branco)">Contato</a>
+        </nav>
+      </sc-if>
+
+      <div style="display:flex;align-items:center;gap:var(--sp-2)">
+        <a href="https://wa.me/5544998137992?text=Ol%C3%A1%2C%20Mateus.%20Vi%20o%20site%20e%20queria%20falar%20sobre%20um%20servi%C3%A7o%20el%C3%A9trico." target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;background:var(--ambar-luz);color:var(--base-950);font-family:var(--ff-mono);font-size:var(--t-mono);font-weight:500;text-transform:uppercase;letter-spacing:var(--ls-mono);padding:11px 16px;border-radius:var(--r-2)" style-hover="background:var(--ambar-quente);color:var(--base-950)">WhatsApp</a>
+        <sc-if value="{{ estreita }}" hint-placeholder-val="{{ false }}">
+          <button type="button" onClick="{{ alternarMenu }}" aria-label="Abrir menu" aria-expanded="{{ menuAberto }}" style="width:44px;height:44px;display:grid;place-content:center;gap:5px;background:transparent;border:var(--borda);border-radius:var(--r-2);cursor:pointer;padding:0">
+            <span style="display:block;width:18px;height:1.5px;background:var(--branco)"></span>
+            <span style="display:block;width:18px;height:1.5px;background:var(--branco)"></span>
+            <span style="display:block;width:18px;height:1.5px;background:var(--branco)"></span>
+          </button>
+        </sc-if>
+      </div>
+    </div>
+
+    <sc-if value="{{ menuAberto }}" hint-placeholder-val="{{ false }}">
+      <nav style="border-top:var(--borda);background:var(--base-900);padding:var(--sp-2) var(--sp-3) var(--sp-3);display:grid;gap:2px;font-family:var(--ff-mono);font-size:0.8rem;text-transform:uppercase;letter-spacing:var(--ls-mono)">
+        <a href="Home.dc.html" onClick="{{ fecharMenu }}" style="color:var(--cinza-texto);padding:13px 0;border-bottom:var(--borda)">Início</a>
+        <a href="servicos.dc.html" onClick="{{ fecharMenu }}" style="color:var(--cinza-texto);padding:13px 0;border-bottom:var(--borda)">Serviços</a>
+        <a href="projetos.dc.html" onClick="{{ fecharMenu }}" style="color:var(--cinza-texto);padding:13px 0;border-bottom:var(--borda)">Projetos</a>
+        <a href="sobre.dc.html" onClick="{{ fecharMenu }}" style="color:var(--cinza-texto);padding:13px 0;border-bottom:var(--borda)">Sobre</a>
+        <a href="contato.dc.html" onClick="{{ fecharMenu }}" style="color:var(--cinza-texto);padding:13px 0">Contato</a>
+      </nav>
+    </sc-if>
+  </header>
+
+  <!-- ── HERO — foto grande, headline, fade de "ligar". Nada além. ── -->
+  <section id="topo" data-screen-label="Hero" style="position:relative;min-height:92vh;display:grid;align-items:end;padding:120px var(--sp-3) var(--sp-6);overflow:hidden">
+    <div id="hero-foto" aria-hidden="true" style="position:absolute;inset:0;z-index:0;background:var(--base-800);border-bottom:var(--borda);transition:opacity 900ms cubic-bezier(0.22,0.61,0.36,1),filter 900ms cubic-bezier(0.22,0.61,0.36,1)">
+      <div style="position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 46px,color-mix(in srgb, var(--base-700) 55%, transparent) 46px 47px)"></div>
+      <img alt="Sala de estar de alto padrão em Maringá com iluminação arquitetural embutida em sanca, executada por Hard Eletric" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none" />
+      <span style="position:absolute;top:88px;right:var(--sp-3);font-family:var(--ff-mono);font-size:var(--t-mono);letter-spacing:var(--ls-mono);color:var(--cinza-fraco)">FOTO — SALA COM ILUMINAÇÃO ARQUITETURAL · 16:9</span>
+    </div>
+    <div aria-hidden="true" style="position:absolute;inset:0;z-index:1;background:linear-gradient(to top, var(--base-950) 4%, color-mix(in srgb, var(--base-950) 84%, transparent) 40%, color-mix(in srgb, var(--base-950) 28%, transparent) 80%)"></div>
+
+    <div style="position:relative;z-index:2;max-width:var(--max-w);margin:0 auto;width:100%">
+      <p style="font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono);color:var(--azul-instrumento);margin-bottom:var(--sp-3)">MARINGÁ E SARANDI · PR</p>
+      <h1 style="font-family:var(--ff-display);font-variation-settings:var(--wdth-expanded);font-weight:700;font-size:var(--t-h1);line-height:var(--lh-titulo);letter-spacing:-0.015em;max-width:19ch">
+        Elétrica bem feita não aparece.<br /><span style="color:var(--ambar-luz)">O resultado, sim.</span>
+      </h1>
+      <p style="margin-top:var(--sp-3);max-width:56ch;color:var(--cinza-texto);font-size:clamp(1rem,1.35vw,1.2rem)">
+        Instalação, manutenção e iluminação em Maringá e Sarandi. Quadro organizado, rasgo alinhado, luz no lugar certo — do ponto de tomada ao projeto de iluminação inteiro.
+      </p>
+      <div style="margin-top:var(--sp-4);display:flex;flex-wrap:wrap;gap:var(--sp-2)">
+        <a href="https://wa.me/5544998137992?text=Ol%C3%A1%2C%20Mateus.%20Preciso%20de%20um%20servi%C3%A7o%20el%C3%A9trico%20em%20Maring%C3%A1." target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:10px;background:var(--ambar-luz);color:var(--base-950);font-family:var(--ff-mono);font-size:0.8rem;font-weight:500;text-transform:uppercase;letter-spacing:var(--ls-mono);padding:16px 24px;border-radius:var(--r-2)" style-hover="background:var(--ambar-quente);color:var(--base-950)">Chamar no WhatsApp</a>
+        <a href="#projetos" style="display:inline-flex;align-items:center;gap:10px;border:1px solid var(--base-700);color:var(--branco);font-family:var(--ff-mono);font-size:0.8rem;text-transform:uppercase;letter-spacing:var(--ls-mono);padding:16px 24px;border-radius:var(--r-2)" style-hover="border-color:var(--azul-instrumento);color:var(--azul-glow)">Ver projetos</a>
+      </div>
+      <p style="margin-top:var(--sp-4);font-family:var(--ff-mono);font-size:var(--t-mono);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--cinza-fraco)">Atendimento flexível — chame a qualquer hora</p>
+    </div>
+  </section>
+
+  <!-- ── SERVIÇOS — legenda do quadro de distribuição ─────── -->
+  <section id="servicos" data-screen-label="Serviços" style="background:var(--base-900);border-top:var(--borda);padding:var(--sp-7) var(--sp-3)">
+    <div style="max-width:var(--max-w);margin:0 auto">
+      <p style="font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono);color:var(--azul-instrumento)">QUADRO DE DISTRIBUIÇÃO</p>
+      <h2 style="margin-top:var(--sp-2);font-family:var(--ff-display);font-variation-settings:var(--wdth-expanded);font-weight:600;font-size:var(--t-h2);line-height:var(--lh-titulo);letter-spacing:-0.01em;max-width:26ch">Do ponto de tomada ao projeto inteiro</h2>
+
+      <div style="margin-top:var(--sp-5);border-top:var(--borda)" data-energize>
+        <a href="https://wa.me/5544998137992?text=Ol%C3%A1%2C%20Mateus.%20Quero%20or%C3%A7amento%20de%20instala%C3%A7%C3%A3o%20el%C3%A9trica%20completa." target="_blank" rel="noopener" style="--c-glow:var(--azul-instrumento);--c-line:0;--c-bg:transparent;display:grid;grid-template-columns:minmax(60px,84px) 1fr;gap:var(--sp-3);align-items:baseline;position:relative;padding:var(--sp-3) var(--sp-3) var(--sp-3) var(--sp-2);border-bottom:var(--borda);background:var(--c-bg);transition:background 260ms ease" style-hover="--c-glow:var(--azul-glow);--c-line:1;--c-bg:var(--base-800);color:var(--branco)">
+          <span aria-hidden="true" style="position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--azul-instrumento);transform:scaleY(var(--c-line));transform-origin:top;transition:transform 380ms cubic-bezier(0.22,0.61,0.36,1)"></span>
+          <span style="font-family:var(--ff-mono);font-size:0.8rem;letter-spacing:var(--ls-mono);color:var(--c-glow);transition:color 220ms ease">C-01</span>
+          <span style="display:grid;gap:6px">
+            <span style="font-family:var(--ff-display);font-variation-settings:var(--wdth-expanded);font-weight:600;font-size:var(--t-h3);line-height:1.2">Instalação elétrica completa</span>
+            <span style="color:var(--cinza-texto);font-size:0.98rem">Ponto novo, fiação, tomada e circuito dimensionado.</span>
+          </span>
+        </a>
+        <a href="https://wa.me/5544998137992?text=Ol%C3%A1%2C%20Mateus.%20Quero%20falar%20sobre%20ilumina%C3%A7%C3%A3o%20arquitetural." target="_blank" rel="noopener" style="--c-glow:var(--azul-instrumento);--c-line:0;--c-bg:transparent;display:grid;grid-template-columns:minmax(60px,84px) 1fr;gap:var(--sp-3);align-items:baseline;position:relative;padding:var(--sp-3) var(--sp-3) var(--sp-3) var(--sp-2);border-bottom:var(--borda);background:var(--c-bg);transition:background 260ms ease" style-hover="--c-glow:var(--azul-glow);--c-line:1;--c-bg:var(--base-800);color:var(--branco)">
+          <span aria-hidden="true" style="position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--azul-instrumento);transform:scaleY(var(--c-line));transform-origin:top;transition:transform 380ms cubic-bezier(0.22,0.61,0.36,1)"></span>
+          <span style="font-family:var(--ff-mono);font-size:0.8rem;letter-spacing:var(--ls-mono);color:var(--c-glow);transition:color 220ms ease">C-02</span>
+          <span style="display:grid;gap:6px">
+            <span style="font-family:var(--ff-display);font-variation-settings:var(--wdth-expanded);font-weight:600;font-size:var(--t-h3);line-height:1.2">Iluminação arquitetural</span>
+            <span style="color:var(--cinza-texto);font-size:0.98rem">Fita LED, linear, embutido e sanca — alinhado com o projeto.</span>
+          </span>
+        </a>
+        <a href="https://wa.me/5544998137992?text=Ol%C3%A1%2C%20Mateus.%20Preciso%20montar%20ou%20organizar%20um%20quadro%20de%20distribui%C3%A7%C3%A3o." target="_blank" rel="noopener" style="--c-glow:var(--azul-instrumento);--c-line:0;--c-bg:transparent;display:grid;grid-template-columns:minmax(60px,84px) 1fr;gap:var(--sp-3);align-items:baseline;position:relative;padding:var(--sp-3) var(--sp-3) var(--sp-3) var(--sp-2);border-bottom:var(--borda);background:var(--c-bg);transition:background 260ms ease" style-hover="--c-glow:var(--azul-glow);--c-line:1;--c-bg:var(--base-800);color:var(--branco)">
+          <span aria-hidden="true" style="position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--azul-instrumento);transform:scaleY(var(--c-line));transform-origin:top;transition:transform 380ms cubic-bezier(0.22,0.61,0.36,1)"></span>
+          <span style="font-family:var(--ff-mono);font-size:0.8rem;letter-spacing:var(--ls-mono);color:var(--c-glow);transition:color 220ms ease">C-03</span>
+          <span style="display:grid;gap:6px">
+            <span style="font-family:var(--ff-display);font-variation-settings:var(--wdth-expanded);font-weight:600;font-size:var(--t-h3);line-height:1.2">Quadro de distribuição</span>
+            <span style="color:var(--cinza-texto);font-size:0.98rem">Montagem, organização e identificação circuito por circuito.</span>
+          </span>
+        </a>
+        <a href="https://wa.me/5544998137992?text=Ol%C3%A1%2C%20Mateus.%20Tenho%20um%20problema%20el%C3%A9trico%20para%20reparo." target="_blank" rel="noopener" style="--c-glow:var(--azul-instrumento);--c-line:0;--c-bg:transparent;display:grid;grid-template-columns:minmax(60px,84px) 1fr;gap:var(--sp-3);align-items:baseline;position:relative;padding:var(--sp-3) var(--sp-3) var(--sp-3) var(--sp-2);border-bottom:var(--borda);background:var(--c-bg);transition:background 260ms ease" style-hover="--c-glow:var(--azul-glow);--c-line:1;--c-bg:var(--base-800);color:var(--branco)">
+          <span aria-hidden="true" style="position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--azul-instrumento);transform:scaleY(var(--c-line));transform-origin:top;transition:transform 380ms cubic-bezier(0.22,0.61,0.36,1)"></span>
+          <span style="font-family:var(--ff-mono);font-size:0.8rem;letter-spacing:var(--ls-mono);color:var(--c-glow);transition:color 220ms ease">C-04</span>
+          <span style="display:grid;gap:6px">
+            <span style="font-family:var(--ff-display);font-variation-settings:var(--wdth-expanded);font-weight:600;font-size:var(--t-h3);line-height:1.2">Manutenção e reparo</span>
+            <span style="color:var(--cinza-texto);font-size:0.98rem">Curto, disjuntor desarmando, tomada queimada, ponto sem energia.</span>
+          </span>
+        </a>
+        <a href="https://wa.me/5544998137992?text=Ol%C3%A1%2C%20Mateus.%20Quero%20automa%C3%A7%C3%A3o%20residencial%20%28cena%20de%20luz%2C%20comando%20por%20celular%29." target="_blank" rel="noopener" style="--c-glow:var(--azul-instrumento);--c-line:0;--c-bg:transparent;display:grid;grid-template-columns:minmax(60px,84px) 1fr;gap:var(--sp-3);align-items:baseline;position:relative;padding:var(--sp-3) var(--sp-3) var(--sp-3) var(--sp-2);border-bottom:var(--borda);background:var(--c-bg);transition:background 260ms ease" style-hover="--c-glow:var(--azul-glow);--c-line:1;--c-bg:var(--base-800);color:var(--branco)">
+          <span aria-hidden="true" style="position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--azul-instrumento);transform:scaleY(var(--c-line));transform-origin:top;transition:transform 380ms cubic-bezier(0.22,0.61,0.36,1)"></span>
+          <span style="font-family:var(--ff-mono);font-size:0.8rem;letter-spacing:var(--ls-mono);color:var(--c-glow);transition:color 220ms ease">C-05</span>
+          <span style="display:grid;gap:6px">
+            <span style="font-family:var(--ff-display);font-variation-settings:var(--wdth-expanded);font-weight:600;font-size:var(--t-h3);line-height:1.2">Automação residencial</span>
+            <span style="color:var(--cinza-texto);font-size:0.98rem">Comando por celular, cena de luz, sensor e temporizador.</span>
+          </span>
+        </a>
+        <a href="https://wa.me/5544998137992?text=Ol%C3%A1%2C%20Mateus.%20Preciso%20de%20infraestrutura%20e%20condu%C3%ADte%20antes%20do%20acabamento." target="_blank" rel="noopener" style="--c-glow:var(--azul-instrumento);--c-line:0;--c-bg:transparent;display:grid;grid-template-columns:minmax(60px,84px) 1fr;gap:var(--sp-3);align-items:baseline;position:relative;padding:var(--sp-3) var(--sp-3) var(--sp-3) var(--sp-2);border-bottom:var(--borda);background:var(--c-bg);transition:background 260ms ease" style-hover="--c-glow:var(--azul-glow);--c-line:1;--c-bg:var(--base-800);color:var(--branco)">
+          <span aria-hidden="true" style="position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--azul-instrumento);transform:scaleY(var(--c-line));transform-origin:top;transition:transform 380ms cubic-bezier(0.22,0.61,0.36,1)"></span>
+          <span style="font-family:var(--ff-mono);font-size:0.8rem;letter-spacing:var(--ls-mono);color:var(--c-glow);transition:color 220ms ease">C-06</span>
+          <span style="display:grid;gap:6px">
+            <span style="font-family:var(--ff-display);font-variation-settings:var(--wdth-expanded);font-weight:600;font-size:var(--t-h3);line-height:1.2">Infraestrutura e conduíte</span>
+            <span style="color:var(--cinza-texto);font-size:0.98rem">Eletroduto, caixa e passagem antes do acabamento fechar.</span>
+          </span>
+        </a>
+        <a href="https://wa.me/5544998137992?text=Ol%C3%A1%2C%20Mateus.%20Preciso%20de%20circuito%20para%20chuveiro%20ou%20aquecimento." target="_blank" rel="noopener" style="--c-glow:var(--azul-instrumento);--c-line:0;--c-bg:transparent;display:grid;grid-template-columns:minmax(60px,84px) 1fr;gap:var(--sp-3);align-items:baseline;position:relative;padding:var(--sp-3) var(--sp-3) var(--sp-3) var(--sp-2);border-bottom:var(--borda);background:var(--c-bg);transition:background 260ms ease" style-hover="--c-glow:var(--azul-glow);--c-line:1;--c-bg:var(--base-800);color:var(--branco)">
+          <span aria-hidden="true" style="position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--azul-instrumento);transform:scaleY(var(--c-line));transform-origin:top;transition:transform 380ms cubic-bezier(0.22,0.61,0.36,1)"></span>
+          <span style="font-family:var(--ff-mono);font-size:0.8rem;letter-spacing:var(--ls-mono);color:var(--c-glow);transition:color 220ms ease">C-07</span>
+          <span style="display:grid;gap:6px">
+            <span style="font-family:var(--ff-display);font-variation-settings:var(--wdth-expanded);font-weight:600;font-size:var(--t-h3);line-height:1.2">Chuveiro e aquecimento</span>
+            <span style="color:var(--cinza-texto);font-size:0.98rem">Circuito próprio, bitola correta e disjuntor certo.</span>
+          </span>
+        </a>
+        <a href="https://wa.me/5544998137992?text=Ol%C3%A1%2C%20Mateus.%20%C3%89%20para%20um%20ponto%20comercial%20ou%20loja." target="_blank" rel="noopener" style="--c-glow:var(--azul-instrumento);--c-line:0;--c-bg:transparent;display:grid;grid-template-columns:minmax(60px,84px) 1fr;gap:var(--sp-3);align-items:baseline;position:relative;padding:var(--sp-3) var(--sp-3) var(--sp-3) var(--sp-2);border-bottom:var(--borda);background:var(--c-bg);transition:background 260ms ease" style-hover="--c-glow:var(--azul-glow);--c-line:1;--c-bg:var(--base-800);color:var(--branco)">
+          <span aria-hidden="true" style="position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--azul-instrumento);transform:scaleY(var(--c-line));transform-origin:top;transition:transform 380ms cubic-bezier(0.22,0.61,0.36,1)"></span>
+          <span style="font-family:var(--ff-mono);font-size:0.8rem;letter-spacing:var(--ls-mono);color:var(--c-glow);transition:color 220ms ease">C-08</span>
+          <span style="display:grid;gap:6px">
+            <span style="font-family:var(--ff-display);font-variation-settings:var(--wdth-expanded);font-weight:600;font-size:var(--t-h3);line-height:1.2">Comercial e loja</span>
+            <span style="color:var(--cinza-texto);font-size:0.98rem">Iluminação de vitrine, painel e reforço de carga.</span>
+          </span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CREDIBILIDADE + MULTÍMETRO (peça de assinatura) ───── -->
+  <section id="em-campo" data-screen-label="Multímetro" data-mm-secao style="position:relative;overflow:hidden;min-height:min(92vh,860px);display:grid;grid-template-columns:minmax(0,1fr);align-content:center;background:var(--base-950);border-top:var(--borda);padding:var(--sp-7) var(--sp-3)">
+    <div id="mm-conjunto" aria-hidden="true" style="position:absolute;top:50%;left:68%;z-index:0;width:130%;opacity:0.08;transform:translate(-50%,-50%) perspective(900px) rotateX(12deg) rotateZ(-24deg);transform-origin:center;transition:opacity 900ms ease;pointer-events:none;will-change:opacity">
+      <img id="mm-corpo" src="uploads/multimetro-recortado.png" alt="" style="display:none;width:100%;height:auto" />
+      <svg id="mm-corpo-svg" viewBox="0 0 980 620" width="100%" style="display:block;overflow:visible" fill="none" stroke="var(--azul-instrumento)" stroke-width="2.2">
+        <rect x="60" y="30" width="880" height="560" rx="44" />
+        <rect x="84" y="54" width="832" height="512" rx="30" stroke-width="1.1" opacity="0.55" />
+        <rect x="470" y="88" width="420" height="232" rx="10" />
+        <rect x="488" y="106" width="384" height="196" rx="4" stroke-width="1" opacity="0.5" />
+        <circle cx="272" cy="318" r="160" />
+        <circle cx="272" cy="318" r="118" stroke-width="1.1" opacity="0.6" />
+        <circle cx="272" cy="318" r="30" />
+        <line x1="272" y1="128" x2="272" y2="150" stroke-width="1.4" />
+        <line x1="412" y1="184" x2="396" y2="200" stroke-width="1.4" />
+        <line x1="464" y1="318" x2="442" y2="318" stroke-width="1.4" />
+        <line x1="412" y1="452" x2="396" y2="436" stroke-width="1.4" />
+        <line x1="272" y1="508" x2="272" y2="486" stroke-width="1.4" />
+        <line x1="132" y1="452" x2="148" y2="436" stroke-width="1.4" />
+        <line x1="80" y1="318" x2="102" y2="318" stroke-width="1.4" />
+        <line x1="132" y1="184" x2="148" y2="200" stroke-width="1.4" />
+        <rect x="470" y="360" width="104" height="34" rx="17" stroke-width="1.4" />
+        <rect x="590" y="360" width="104" height="34" rx="17" stroke-width="1.4" />
+        <rect x="710" y="360" width="180" height="34" rx="17" stroke-width="1.4" opacity="0.6" />
+        <line x1="470" y1="424" x2="890" y2="424" stroke-width="1" opacity="0.4" />
+        <circle cx="540" cy="500" r="28" />
+        <circle cx="660" cy="500" r="28" />
+        <circle cx="780" cy="500" r="28" />
+        <circle cx="540" cy="500" r="9" stroke-width="1.2" />
+        <circle cx="660" cy="500" r="9" stroke-width="1.2" />
+        <circle cx="780" cy="500" r="9" stroke-width="1.2" />
+        <path d="M512 500 C 380 512, 300 560, 140 552 S -60 470, -260 520" stroke-width="2" opacity="0.75" />
+        <path d="M634 512 C 480 560, 360 600, 180 606 S -80 560, -300 616" stroke-width="2" opacity="0.55" />
+      </svg>
+      <svg id="mm-ponteiro-svg" viewBox="112 158 320 320" style="position:absolute;left:65%;top:38%;width:14%;aspect-ratio:1;transform:translate(-50%,-50%);overflow:visible" fill="none">
+        <g id="mm-ponteiro-camada">
+        <path id="mm-ponteiro" d="M272 318 L272 176" stroke="var(--ambar-luz)" stroke-width="3.4" stroke-linecap="round" style="transform:rotate(38deg);transform-origin:272px 318px;transition:transform 1.1s cubic-bezier(0.34,1.36,0.64,1)" />
+        <circle cx="272" cy="318" r="10" fill="var(--ambar-luz)" opacity="0.7" />
+        </g>
+      </svg>
+      <svg id="mm-hud" viewBox="0 0 980 620" width="100%" style="position:absolute;inset:0;display:block;overflow:visible" fill="none">
+        <g id="mm-display-camada">
+        <rect id="mm-backlight" x="488" y="106" width="384" height="196" rx="4" fill="var(--azul-glow)" opacity="0.42" />
+        <text id="mm-display-valor" x="854" y="222" text-anchor="end" fill="var(--azul-glow)" style="font-family:var(--ff-seg);font-size:96px;font-weight:700">500</text>
+        <text id="mm-display-unidade" x="854" y="268" text-anchor="end" fill="var(--azul-instrumento)" style="font-family:var(--ff-mono);font-size:21px;letter-spacing:0.12em">+ ATENDIMENTOS</text>
+        </g>
+      </svg>
+    </div>
+
+    <div style="position:relative;z-index:2;width:100%;max-width:var(--max-w);margin:0 auto">
+      <p style="font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono);color:var(--azul-instrumento)">EM CAMPO</p>
+      <h2 style="margin-top:var(--sp-2);font-family:var(--ff-display);font-variation-settings:var(--wdth-expanded);font-weight:600;font-size:var(--t-h2);line-height:var(--lh-titulo);letter-spacing:-0.01em;max-width:22ch">Mais de 500 atendimentos entre Maringá e Sarandi</h2>
+      <p style="margin-top:var(--sp-3);max-width:52ch;color:var(--cinza-texto)">Casa, apartamento, loja e obra em andamento. O mesmo cuidado no ponto de tomada avulso e no projeto de iluminação inteiro: rasgo alinhado, emenda fechada, circuito identificado e ambiente limpo na saída.</p>
+      <div style="margin-top:var(--sp-5);display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1px;background:var(--base-700);border:var(--borda)">
+        <div style="background:var(--base-950);padding:var(--sp-3)">
+          <p style="font-family:var(--ff-display);font-variation-settings:var(--wdth-expanded);font-weight:700;font-size:1.9rem;color:var(--ambar-luz);line-height:1.1">500+</p>
+          <p style="margin-top:6px;font-family:var(--ff-mono);font-size:var(--t-mono);letter-spacing:var(--ls-mono);color:var(--cinza-texto)">ATENDIMENTOS</p>
+        </div>
+        <div style="background:var(--base-950);padding:var(--sp-3)">
+          <p style="font-family:var(--ff-display);font-variation-settings:var(--wdth-expanded);font-weight:700;font-size:1.9rem;color:var(--branco);line-height:1.1">Minutos</p>
+          <p style="margin-top:6px;font-family:var(--ff-mono);font-size:var(--t-mono);letter-spacing:var(--ls-mono);color:var(--cinza-texto)">TEMPO DE RESPOSTA</p>
+        </div>
+        <div style="background:var(--base-950);padding:var(--sp-3)">
+          <p style="font-family:var(--ff-display);font-variation-settings:var(--wdth-expanded);font-weight:700;font-size:1.9rem;color:var(--branco);line-height:1.1">MGA/SDI</p>
+          <p style="margin-top:6px;font-family:var(--ff-mono);font-size:var(--t-mono);letter-spacing:var(--ls-mono);color:var(--cinza-texto)">ÁREA DE ATENDIMENTO</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PROJETOS — cliente nomeado, três colunas ─────────── -->
+  <section id="projetos" data-screen-label="Projetos" style="background:var(--base-900);border-top:var(--borda);padding:var(--sp-7) var(--sp-3)">
+    <div style="max-width:var(--max-w);margin:0 auto">
+      <p style="font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono);color:var(--azul-instrumento)">EXECUTADO</p>
+      <h2 style="margin-top:var(--sp-2);font-family:var(--ff-display);font-variation-settings:var(--wdth-expanded);font-weight:600;font-size:var(--t-h2);line-height:var(--lh-titulo);letter-spacing:-0.01em">Onde o trabalho está</h2>
+
+      <div style="margin-top:var(--sp-5);display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:var(--sp-4)">
+        <article style="display:grid;grid-template-rows:auto auto;align-content:start;gap:var(--sp-3)" data-energize>
+          <div style="position:relative;aspect-ratio:4/5;background:var(--base-800);border:var(--borda);border-radius:var(--r-2);overflow:hidden">
+            <div aria-hidden="true" style="position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 42px,color-mix(in srgb, var(--base-700) 60%, transparent) 42px 43px)"></div>
+            <img alt="Iluminação arquitetural em sanca executada em residência no condomínio Alphaville, Maringá" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none" />
+            <span style="position:absolute;bottom:var(--sp-2);left:var(--sp-2);font-family:var(--ff-mono);font-size:var(--t-mono);letter-spacing:var(--ls-mono);color:var(--cinza-fraco)">FOTO — SANCA COM FITA LED · 4:5</span>
+          </div>
+          <div style="display:grid;gap:8px;padding-top:var(--sp-1);border-top:1px solid var(--base-700)">
+            <h3 style="font-family:var(--ff-display);font-variation-settings:var(--wdth-expanded);font-weight:600;font-size:clamp(1.3rem,2vw,1.7rem);line-height:1.15">Alphaville</h3>
+            <p style="font-family:var(--ff-mono);font-size:var(--t-mono);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--cinza-texto)">Iluminação arquitetural residencial</p>
+            <p style="font-family:var(--ff-mono);font-size:var(--t-mono);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--cinza-fraco)">Maringá, PR</p>
+          </div>
+        </article>
+        <article style="display:grid;grid-template-rows:auto auto;align-content:start;gap:var(--sp-3)" data-energize>
+          <div style="position:relative;aspect-ratio:4/5;background:var(--base-800);border:var(--borda);border-radius:var(--r-2);overflow:hidden">
+            <div aria-hidden="true" style="position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 42px,color-mix(in srgb, var(--base-700) 60%, transparent) 42px 43px)"></div>
+            <img alt="Iluminação de showroom da Revest Acabamentos com destaque de vitrine e painel" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none" />
+            <span style="position:absolute;bottom:var(--sp-2);left:var(--sp-2);font-family:var(--ff-mono);font-size:var(--t-mono);letter-spacing:var(--ls-mono);color:var(--cinza-fraco)">FOTO — SHOWROOM ILUMINADO · 4:5</span>
+          </div>
+          <div style="display:grid;gap:8px;padding-top:var(--sp-1);border-top:1px solid var(--base-700)">
+            <h3 style="font-family:var(--ff-display);font-variation-settings:var(--wdth-expanded);font-weight:600;font-size:clamp(1.3rem,2vw,1.7rem);line-height:1.15">Revest Acabamentos</h3>
+            <p style="font-family:var(--ff-mono);font-size:var(--t-mono);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--cinza-texto)">Iluminação de vitrine e painel</p>
+            <p style="font-family:var(--ff-mono);font-size:var(--t-mono);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--cinza-fraco)">Maringá, PR</p>
+          </div>
+        </article>
+        <article style="display:grid;grid-template-rows:auto auto;align-content:start;gap:var(--sp-3)" data-energize>
+          <div style="position:relative;aspect-ratio:4/5;background:var(--base-800);border:var(--borda);border-radius:var(--r-2);overflow:hidden">
+            <div aria-hidden="true" style="position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 42px,color-mix(in srgb, var(--base-700) 60%, transparent) 42px 43px)"></div>
+            <img alt="Quadro de distribuição montado e identificado circuito por circuito no Max Atacadista" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none" />
+            <span style="position:absolute;bottom:var(--sp-2);left:var(--sp-2);font-family:var(--ff-mono);font-size:var(--t-mono);letter-spacing:var(--ls-mono);color:var(--cinza-fraco)">FOTO — QUADRO MONTADO · 4:5</span>
+          </div>
+          <div style="display:grid;gap:8px;padding-top:var(--sp-1);border-top:1px solid var(--base-700)">
+            <h3 style="font-family:var(--ff-display);font-variation-settings:var(--wdth-expanded);font-weight:600;font-size:clamp(1.3rem,2vw,1.7rem);line-height:1.15">Max Atacadista</h3>
+            <p style="font-family:var(--ff-mono);font-size:var(--t-mono);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--cinza-texto)">Quadro e reforço de carga</p>
+            <p style="font-family:var(--ff-mono);font-size:var(--t-mono);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--cinza-fraco)">Maringá, PR</p>
+          </div>
+        </article>
+      </div>
+
+      <a href="projetos.dc.html" style="margin-top:var(--sp-5);display:inline-flex;align-items:center;gap:10px;font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono);color:var(--azul-instrumento);border-bottom:1px solid var(--azul-fosco);padding-bottom:6px" style-hover="color:var(--azul-glow);border-color:var(--azul-instrumento)">Ver todos os projetos →</a>
+    </div>
+  </section>
+
+  <!-- ── COMO FUNCIONA ────────────────────────────────────── -->
+  <section data-screen-label="Como funciona" style="background:var(--base-950);border-top:var(--borda);padding:var(--sp-7) var(--sp-3)">
+    <div style="max-width:var(--max-w);margin:0 auto">
+      <p style="font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono);color:var(--azul-instrumento)">DO CHAMADO À ENTREGA</p>
+      <h2 style="margin-top:var(--sp-2);font-family:var(--ff-display);font-variation-settings:var(--wdth-expanded);font-weight:600;font-size:var(--t-h2);line-height:var(--lh-titulo);letter-spacing:-0.01em">Três passos, sem enrolação</h2>
+      <ol style="margin:var(--sp-5) 0 0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:var(--sp-4)" data-energize>
+        <li style="display:grid;gap:var(--sp-2);align-content:start;padding-top:var(--sp-3);border-top:2px solid var(--azul-fosco)">
+          <span style="font-family:var(--ff-mono);font-size:0.8rem;letter-spacing:var(--ls-mono);color:var(--azul-instrumento)">01</span>
+          <h3 style="font-family:var(--ff-display);font-variation-settings:var(--wdth-expanded);font-weight:600;font-size:var(--t-h3);line-height:1.2">Chame no WhatsApp</h3>
+          <p style="color:var(--cinza-texto);font-size:0.98rem">Manda foto ou descreve o problema. Responde rápido.</p>
+        </li>
+        <li style="display:grid;gap:var(--sp-2);align-content:start;padding-top:var(--sp-3);border-top:2px solid var(--azul-fosco)">
+          <span style="font-family:var(--ff-mono);font-size:0.8rem;letter-spacing:var(--ls-mono);color:var(--azul-instrumento)">02</span>
+          <h3 style="font-family:var(--ff-display);font-variation-settings:var(--wdth-expanded);font-weight:600;font-size:var(--t-h3);line-height:1.2">Visita e orçamento</h3>
+          <p style="color:var(--cinza-texto);font-size:0.98rem">Avaliação no local, valor fechado antes de começar.</p>
+        </li>
+        <li style="display:grid;gap:var(--sp-2);align-content:start;padding-top:var(--sp-3);border-top:2px solid var(--ambar-luz)">
+          <span style="font-family:var(--ff-mono);font-size:0.8rem;letter-spacing:var(--ls-mono);color:var(--ambar-luz)">03</span>
+          <h3 style="font-family:var(--ff-display);font-variation-settings:var(--wdth-expanded);font-weight:600;font-size:var(--t-h3);line-height:1.2">Serviço executado</h3>
+          <p style="color:var(--cinza-texto);font-size:0.98rem">Feito no combinado, com o ambiente limpo na saída.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ── CTA FINAL ────────────────────────────────────────── -->
+  <section id="contato" data-screen-label="CTA final" style="background:var(--base-800);border-top:var(--borda);padding:var(--sp-6) var(--sp-3)">
+    <div style="max-width:var(--max-w);margin:0 auto;display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:var(--sp-4)">
+      <div style="display:grid;gap:var(--sp-2);min-width:min(100%,340px)">
+        <h2 style="font-family:var(--ff-display);font-variation-settings:var(--wdth-expanded);font-weight:600;font-size:var(--t-h2);line-height:var(--lh-titulo);letter-spacing:-0.01em">Manda a foto do problema.</h2>
+        <a href="tel:+5544998137992" style="font-family:var(--ff-display);font-variation-settings:var(--wdth-expanded);font-weight:700;font-size:clamp(1.7rem,4.2vw,3rem);line-height:1.1;color:var(--ambar-luz)" style-hover="color:var(--ambar-quente)">(44) 99813-7992</a>
+        <p style="font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono);color:var(--cinza-texto)">Maringá e Sarandi · atendimento flexível, chame a qualquer hora</p>
+      </div>
+      <a href="https://wa.me/5544998137992?text=Ol%C3%A1%2C%20Mateus.%20Estou%20mandando%20a%20foto%20do%20problema%20el%C3%A9trico." target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:10px;background:var(--ambar-luz);color:var(--base-950);font-family:var(--ff-mono);font-size:0.8rem;font-weight:500;text-transform:uppercase;letter-spacing:var(--ls-mono);padding:18px 28px;border-radius:var(--r-2)" style-hover="background:var(--ambar-quente);color:var(--base-950)">Chamar no WhatsApp</a>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ───────────────────────────────────────────── -->
+  <footer style="background:var(--base-950);border-top:var(--borda);padding:var(--sp-6) var(--sp-3) var(--sp-4)">
+    <div style="max-width:var(--max-w);margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:var(--sp-4)">
+      <div style="display:grid;gap:var(--sp-2);align-content:start">
+        <img src="uploads/590402669_17881333944423421_7223825427814460688_n.jpg" alt="Hard Eletric" style="height:40px;width:auto;display:block;border-radius:var(--r-1)" />
+        <p style="color:var(--cinza-texto);font-size:0.95rem;max-width:34ch">Mateus Th. — eletricista residencial e comercial. Instalação, manutenção e iluminação arquitetural.</p>
+      </div>
+      <div style="display:grid;gap:var(--sp-2);align-content:start;font-size:0.95rem">
+        <p style="font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono);color:var(--cinza-fraco)">NAVEGAÇÃO</p>
+        <a href="Home.dc.html" style="color:var(--cinza-texto)" style-hover="color:var(--branco)">Início</a>
+        <a href="servicos.dc.html" style="color:var(--cinza-texto)" style-hover="color:var(--branco)">Serviços</a>
+        <a href="projetos.dc.html" style="color:var(--cinza-texto)" style-hover="color:var(--branco)">Projetos</a>
+        <a href="sobre.dc.html" style="color:var(--cinza-texto)" style-hover="color:var(--branco)">Sobre</a>
+        <a href="contato.dc.html" style="color:var(--cinza-texto)" style-hover="color:var(--branco)">Contato</a>
+      </div>
+      <div style="display:grid;gap:var(--sp-2);align-content:start;font-size:0.95rem">
+        <p style="font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono);color:var(--cinza-fraco)">CONTATO</p>
+        <a href="https://wa.me/5544998137992" target="_blank" rel="noopener" style="color:var(--cinza-texto)" style-hover="color:var(--branco)">WhatsApp (44) 99813-7992</a>
+        <a href="https://instagram.com/hard.eletric" target="_blank" rel="noopener" style="color:var(--cinza-texto)" style-hover="color:var(--branco)">@hard.eletric</a>
+      </div>
+      <div style="display:grid;gap:var(--sp-2);align-content:start;font-size:0.95rem">
+        <p style="font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono);color:var(--cinza-fraco)">ÁREA DE ATENDIMENTO</p>
+        <p style="color:var(--cinza-texto)">Maringá e Sarandi, PR</p>
+        <p style="color:var(--cinza-texto)">Atendimento flexível</p>
+      </div>
+    </div>
+    <div style="max-width:var(--max-w);margin:var(--sp-4) auto 0;padding-top:var(--sp-3);border-top:var(--borda);display:flex;flex-wrap:wrap;gap:var(--sp-2);justify-content:space-between;font-family:var(--ff-mono);font-size:var(--t-mono);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--cinza-fraco)">
+      <p>© 2026 Hard Eletric · Maringá, PR</p>
+      <p>Site feito por <a href="https://meu-portfoliowilldev.vercel.app" target="_blank" rel="noopener" style="color:var(--cinza-fraco);border-bottom:1px solid var(--base-700)" style-hover="color:var(--cinza-texto)">Willian Softwares</a></p>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;mmVersao&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;imagem&quot;,&quot;options&quot;:[&quot;imagem&quot;,&quot;svg&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Multímetro&quot;},&quot;mmOpacidadeLigado&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:0.31,&quot;min&quot;:0.1,&quot;max&quot;:0.6,&quot;step&quot;:0.01,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Multímetro&quot;},&quot;mmAngulo&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:-29,&quot;min&quot;:-40,&quot;max&quot;:-8,&quot;step&quot;:1,&quot;unit&quot;:&quot;deg&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Multímetro&quot;},&quot;animacoes&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Multímetro&quot;},&quot;hudContorno&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;HUD · alinhamento&quot;},&quot;hudLeft&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:53.6,&quot;min&quot;:30,&quot;max&quot;:80,&quot;step&quot;:0.1,&quot;unit&quot;:&quot;%&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;HUD · alinhamento&quot;},&quot;hudTop&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:19.8,&quot;min&quot;:0,&quot;max&quot;:60,&quot;step&quot;:0.1,&quot;unit&quot;:&quot;%&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;HUD · alinhamento&quot;},&quot;hudLargura&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:21.4,&quot;min&quot;:5,&quot;max&quot;:45,&quot;step&quot;:0.1,&quot;unit&quot;:&quot;%&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;HUD · alinhamento&quot;},&quot;hudAltura&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:12.6,&quot;min&quot;:4,&quot;max&quot;:40,&quot;step&quot;:0.1,&quot;unit&quot;:&quot;%&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;HUD · alinhamento&quot;},&quot;hudRotZ&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:-11.6,&quot;min&quot;:-45,&quot;max&quot;:45,&quot;step&quot;:0.1,&quot;unit&quot;:&quot;deg&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;HUD · alinhamento&quot;},&quot;hudSkewX&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:22.3,&quot;min&quot;:-45,&quot;max&quot;:45,&quot;step&quot;:0.1,&quot;unit&quot;:&quot;deg&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;HUD · alinhamento&quot;},&quot;hudFonte&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:110,&quot;min&quot;:40,&quot;max&quot;:200,&quot;step&quot;:2,&quot;unit&quot;:&quot;px&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;HUD · alinhamento&quot;},&quot;hudRotX&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:0,&quot;min&quot;:-90,&quot;max&quot;:90,&quot;step&quot;:1,&quot;unit&quot;:&quot;deg&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;HUD · perspectiva (opcional)&quot;},&quot;hudRotY&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:0,&quot;min&quot;:-90,&quot;max&quot;:90,&quot;step&quot;:1,&quot;unit&quot;:&quot;deg&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;HUD · perspectiva (opcional)&quot;},&quot;hudPerspectiva&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:0,&quot;min&quot;:0,&quot;max&quot;:2000,&quot;step&quot;:10,&quot;unit&quot;:&quot;px&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;HUD · perspectiva (opcional)&quot;},&quot;azulInstrumento&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#2B8CE8&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Sistema&quot;,&quot;options&quot;:[&quot;#2B8CE8&quot;,&quot;#1E7FD6&quot;,&quot;#3A9BF0&quot;,&quot;#0F6FC4&quot;]},&quot;ambarLuz&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#E9A23B&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Sistema&quot;,&quot;options&quot;:[&quot;#E9A23B&quot;,&quot;#F0B24E&quot;,&quot;#DE8F2A&quot;]}}">
+class Component extends DCLogic {
+  state = {
+    larga: typeof window === 'undefined' ? true : window.innerWidth >= 900,
+    menuAberto: false
+  };
+
+  renderVals() {
+    return {
+      larga: this.state.larga,
+      estreita: !this.state.larga,
+      menuAberto: this.state.menuAberto && !this.state.larga,
+      alternarMenu: () => this.setState(s => ({ menuAberto: !s.menuAberto })),
+      fecharMenu: () => this.setState({ menuAberto: false })
+    };
+  }
+
+  componentDidMount() {
+    this.aoRedimensionar = () => {
+      const larga = window.innerWidth >= 900;
+      if (larga !== this.state.larga) this.setState({ larga, menuAberto: false });
+    };
+    window.addEventListener('resize', this.aoRedimensionar);
+
+    const raiz = document.documentElement;
+    if (this.props.azulInstrumento) raiz.style.setProperty('--azul-instrumento', this.props.azulInstrumento);
+    if (this.props.ambarLuz) raiz.style.setProperty('--ambar-luz', this.props.ambarLuz);
+
+    const conjunto = document.getElementById('mm-conjunto');
+    const opLigado = Number(this.props.mmOpacidadeLigado ?? 0.18);
+    const opRepouso = 0.08;
+    const angulo = Number(this.props.mmAngulo ?? -24);
+
+    // Duas versões do multímetro convivem: a foto (padrão) e o traço fino em
+    // SVG, preservado para comparação. O HUD animado é o mesmo nas duas.
+    const versao = this.props.mmVersao === 'svg' ? 'svg' : 'imagem';
+    // #mm-conjunto é o wrapper — ÚNICO elemento que pode rotacionar.
+    // No modo imagem #mm-corpo é a foto (o corpo em SVG fica preservado em
+    // #mm-corpo-svg); nem o corpo nem o HUD recebem a rotação do contêiner.
+    const corpoSvg = document.getElementById('mm-corpo-svg');
+    const foto = document.getElementById('mm-corpo');
+    const camadaDisplay = document.getElementById('mm-display-camada');
+    const camadaPonteiro = document.getElementById('mm-ponteiro-camada');
+
+    if (versao === 'imagem') {
+      if (corpoSvg) corpoSvg.style.display = 'none';
+      if (foto) { foto.style.display = 'block'; foto.style.transform = 'none'; }
+      // A foto JÁ vem em perspectiva: o wrapper não rotaciona nada neste modo —
+      // só posiciona. mmAngulo vale 0 aqui e não é aplicado.
+      if (conjunto) conjunto.style.transform = 'translate(-50%,-50%)';
+
+      // HUD assentado no vidro do display da foto. Todo o alinhamento é
+      // controlável pelos tweaks — ajuste visual e salve.
+      const p = this.props;
+      const hud = document.getElementById('mm-hud');
+      if (hud) {
+        hud.setAttribute('viewBox', '488 106 384 196');
+        hud.setAttribute('preserveAspectRatio', 'none');
+        hud.style.cssText =
+          'position:absolute;display:block;overflow:visible;transform-origin:center;' +
+          'left:' + (p.hudLeft ?? 53.6) + '%;' +
+          'top:' + (p.hudTop ?? 19.8) + '%;' +
+          'width:' + (p.hudLargura ?? 18.9) + '%;' +
+          'height:' + (p.hudAltura ?? 12.6) + '%;' +
+          // Quadrilátero do vidro medido nos pixels da foto: TL 42.5/17.8,
+          // TR 61.0/10.2, BR 64.8/21.5, BL 46.3/29.8. Resolvido como afim 2D
+          // (rotação + skew); a perspectiva só entra se hudPerspectiva > 0.
+          'transform:translate(-50%,-50%)' +
+          ((p.hudPerspectiva ?? 0) > 0 ? ' perspective(' + p.hudPerspectiva + 'px)' : '') +
+          ' rotateX(' + (p.hudRotX ?? 0) + 'deg)' +
+          ' rotateY(' + (p.hudRotY ?? 0) + 'deg)' +
+          ' rotateZ(' + (p.hudRotZ ?? -11.6) + 'deg)' +
+          ' skewX(' + (p.hudSkewX ?? 22.3) + 'deg);' +
+          (p.hudContorno ? 'outline:1px solid var(--azul-glow);' : '');
+      }
+      const valorTexto = document.getElementById('mm-display-valor');
+      if (valorTexto && p.hudFonte) valorTexto.style.fontSize = p.hudFonte + 'px';
+      if (camadaDisplay) camadaDisplay.removeAttribute('transform');
+
+      // O ponteiro já mora em camada própria no template (nada de mover nós do
+      // React): aqui só é reposicionado sobre o botão rotativo da foto.
+      const pontSvg = document.getElementById('mm-ponteiro-svg');
+      if (pontSvg) {
+        pontSvg.style.left = '65%';
+        pontSvg.style.top = '38%';
+        pontSvg.style.width = '14%';
+      }
+    } else if (conjunto) {
+      // Versão em traço fino preservada: aqui sim o wrapper rotaciona.
+      if (foto) foto.style.display = 'none';
+      if (corpoSvg) corpoSvg.style.display = 'block';
+      const pontSvg2 = document.getElementById('mm-ponteiro-svg');
+      if (pontSvg2) { pontSvg2.style.left = '27.8%'; pontSvg2.style.top = '51.3%'; pontSvg2.style.width = '32.6%'; }
+      conjunto.style.transform =
+        'translate(-50%,-50%) perspective(900px) rotateX(12deg) rotateZ(' + angulo + 'deg)';
+    }
+
+    // Estado de falha: sem JS ou com prefers-reduced-motion, a página aparece LIGADA.
+    const semMovimento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (semMovimento || this.props.animacoes === false) {
+      if (conjunto) conjunto.style.opacity = String(opLigado);
+      return;
+    }
+
+    this.timers = [];
+    this.observadores = [];
+
+    // ── Hero: entra escuro, sobe para o brilho normal em 900ms ──
+    const heroFoto = document.getElementById('hero-foto');
+    if (heroFoto) {
+      heroFoto.style.opacity = '0.18';
+      heroFoto.style.filter = 'saturate(0.3)';
+      this.timers.push(setTimeout(() => {
+        heroFoto.style.opacity = '1';
+        heroFoto.style.filter = 'saturate(1)';
+      }, 90));
+    }
+
+    // ── Regra única: circuito fechado é o que está no centro da tela ──
+    const faixa = { root: null, rootMargin: '-35% 0px -35% 0px', threshold: 0 };
+
+    const blocos = Array.from(document.querySelectorAll('[data-energize]'));
+    blocos.forEach(el => {
+      el.style.opacity = '0.42';
+      el.style.filter = 'saturate(0.25)';
+      el.style.transform = 'translateY(14px)';
+      el.style.transition = 'opacity 700ms ease, filter 700ms ease, transform 700ms cubic-bezier(0.22,0.61,0.36,1)';
+      el.style.willChange = 'opacity, transform';
+    });
+    // pendentes: elemento → função que o liga. Um só observador para tudo.
+    const pend = new Map();
+    const bandaBase = () => window.innerHeight * 0.65; // base da faixa central
+    let obs;
+
+    const ligarBloco = el => {
+      el.style.opacity = '1';
+      el.style.filter = 'saturate(1)';
+      el.style.transform = 'translateY(0)';
+      el.style.willChange = 'auto';
+    };
+
+    // Varredura: acende todo pendente cujo topo já entrou (ou passou) a faixa.
+    // O observador só reporta MUDANÇA de interseção; num salto de scroll o
+    // elemento pula de "abaixo" para "acima" sem gerar callback nenhuma.
+    const varredura = () => {
+      pend.forEach((ligar, el) => {
+        if (el.getBoundingClientRect().top < bandaBase()) {
+          ligar(el);
+          pend.delete(el);
+          if (obs) obs.unobserve(el);
+        }
+      });
+    };
+
+    obs = new IntersectionObserver(entradas => {
+      entradas.forEach(e => {
+        if (!e.isIntersecting) return;
+        const ligar = pend.get(e.target);
+        if (!ligar) return;
+        ligar(e.target);
+        pend.delete(e.target);
+        obs.unobserve(e.target);
+      });
+      varredura();
+    }, faixa);
+    this.observadores.push(obs);
+    blocos.forEach(el => { pend.set(el, ligarBloco); obs.observe(el); });
+
+    // ── Multímetro: desligado até o circuito fechar ──
+    const backlight = document.getElementById('mm-backlight');
+    const valor = document.getElementById('mm-display-valor');
+    const unidade = document.getElementById('mm-display-unidade');
+    const ponteiro = document.getElementById('mm-ponteiro');
+    const leitura2 = document.getElementById('mm-leitura-2');
+    const leitura3 = document.getElementById('mm-leitura-3');
+    const secao = document.querySelector('[data-mm-secao]');
+
+    const anguloRepouso = -52;
+    const anguloLigado = 38;
+    if (backlight) backlight.style.opacity = '0';
+    if (valor) valor.textContent = '0';
+    if (unidade) unidade.style.opacity = '0.35';
+    if (leitura2) leitura2.style.opacity = '0.28';
+    if (leitura3) leitura3.style.opacity = '0.28';
+    if (ponteiro) ponteiro.style.transform = 'rotate(' + anguloRepouso + 'deg)';
+    if (conjunto) conjunto.style.opacity = String(opRepouso);
+
+    const ligarMultimetro = () => {
+      // 1 · backlight acende com flicker de LCD
+      if (backlight) {
+        backlight.style.animation = 'mm-flicker 150ms steps(1,end) forwards';
+        backlight.style.opacity = '0.42';
+      }
+      // 4 · opacidade geral sobe pouco; o contraste vem do HUD
+      if (conjunto) conjunto.style.opacity = String(opLigado);
+      [unidade, leitura2, leitura3].forEach(el => {
+        if (el) { el.style.transition = 'opacity 600ms ease'; el.style.opacity = '1'; }
+      });
+      // 3 · ponteiro sobe, ultrapassa e volta (inércia)
+      this.timers.push(setTimeout(() => {
+        if (ponteiro) ponteiro.style.transform = 'rotate(' + anguloLigado + 'deg)';
+      }, 140));
+      // 2 · count-up 0 → 500 em 1,4s desacelerando
+      if (valor) {
+        const inicio = performance.now();
+        const dur = 1400;
+        const passo = agora => {
+          const t = Math.min(1, (agora - inicio) / dur);
+          const eased = 1 - Math.pow(1 - t, 3);
+          valor.textContent = String(Math.round(eased * 500));
+          if (t < 1) this.rafConta = requestAnimationFrame(passo);
+        };
+        this.rafConta = requestAnimationFrame(passo);
+      }
+    };
+
+    if (secao) {
+      pend.set(secao, ligarMultimetro);
+      obs.observe(secao);
+    }
+
+    // Rede de segurança: primeiro quadro (deep-link, posição restaurada) e fim
+    // de cada salto de scroll. Evento único, não listener por frame.
+    requestAnimationFrame(varredura);
+    if ('onscrollend' in window) {
+      this.aoTerminarScroll = varredura;
+      window.addEventListener('scrollend', this.aoTerminarScroll);
+    } else {
+      let ultimo = window.scrollY;
+      const poll = () => {
+        if (!pend.size) return;
+        if (window.scrollY !== ultimo) { ultimo = window.scrollY; varredura(); }
+        this.rafPoll = requestAnimationFrame(poll);
+      };
+      this.rafPoll = requestAnimationFrame(poll);
+    }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.aoRedimensionar);
+    (this.timers || []).forEach(clearTimeout);
+    (this.observadores || []).forEach(o => o.disconnect());
+    if (this.rafConta) cancelAnimationFrame(this.rafConta);
+    if (this.rafPoll) cancelAnimationFrame(this.rafPoll);
+    if (this.aoTerminarScroll) window.removeEventListener('scrollend', this.aoTerminarScroll);
+  }
+}
+</script>
+</body>
+</html>

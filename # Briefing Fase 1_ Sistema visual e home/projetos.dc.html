@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+/* ─────────────────────────────────────────────────────────────
+   HARD ELETRIC — sistema visual (herdado da Fase 1, sem alteração)
+   Lei do projeto: nenhum hexadecimal solto fora deste bloco.
+   ───────────────────────────────────────────────────────────── */
+@font-face{
+  font-family:'DSEG7 Classic';
+  src:url('https://cdn.jsdelivr.net/npm/dseg@0.46.0/fonts/DSEG7-Classic/DSEG7Classic-Bold.woff2') format('woff2');
+  font-weight:700;font-style:normal;font-display:swap;
+}
+:root{
+  /* Base — o site é escuro por conceito, não por estilo */
+  --base-950:#080A0D;   /* fundo da página */
+  --base-900:#0E1218;   /* seções alternadas */
+  --base-800:#161C25;   /* superfícies, cards e slots de foto */
+  --base-700:#222A36;   /* bordas e divisores */
+
+  /* Instrumento — azul da logo. Como ele MEDE. */
+  --azul-instrumento:#2B8CE8;
+  --azul-glow:#6FC3FF;   /* backlight, brilho de LCD */
+  --azul-fosco:#1A4B7A;  /* estado desligado do azul */
+
+  /* Luz — o que ele ENTREGA. */
+  --ambar-luz:#E9A23B;
+  --ambar-quente:#F5C877; /* halo, brilho difuso */
+
+  /* Texto */
+  --branco:#F2F5F9;
+  --cinza-texto:#8892A0;
+  --cinza-fraco:#545E6B;
+
+  /* Tipografia */
+  --ff-display:'Archivo',system-ui,sans-serif;
+  --ff-corpo:'Archivo',system-ui,sans-serif;
+  --ff-mono:'IBM Plex Mono',ui-monospace,monospace;
+  --ff-seg:'DSEG7 Classic','IBM Plex Mono',monospace;
+  --wdth-expanded:'wdth' 125;
+  --wdth-normal:'wdth' 100;
+  --ls-mono:0.12em;
+
+  /* Escala de tipo */
+  --t-h1:clamp(2.5rem,6.4vw,5rem);
+  --t-h2:clamp(1.85rem,3.6vw,3rem);
+  --t-h3:clamp(1.15rem,1.7vw,1.5rem);
+  --t-corpo:clamp(1rem,1.15vw,1.125rem);
+  --t-mono:0.75rem;
+  --lh-titulo:1.06;
+  --lh-corpo:1.6;
+
+  /* Espaçamento, raio, medida */
+  --sp-1:0.5rem; --sp-2:0.875rem; --sp-3:1.25rem; --sp-4:2rem;
+  --sp-5:3rem; --sp-6:4.5rem; --sp-7:7rem;
+  --r-1:3px; --r-2:6px; --r-3:12px;
+  --max-w:1240px;
+  --borda:1px solid var(--base-700);
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;background:var(--base-950);color:var(--branco);
+  font-family:var(--ff-corpo);font-variation-settings:var(--wdth-normal);
+  font-size:var(--t-corpo);line-height:var(--lh-corpo);
+  -webkit-font-smoothing:antialiased;text-wrap:pretty;
+}
+h1,h2,h3,p{margin:0;}
+a{color:var(--branco);text-decoration:none;}
+a:hover{color:var(--ambar-luz);}
+:focus-visible{outline:2px solid var(--azul-instrumento);outline-offset:3px;}
+::selection{background:var(--azul-fosco);color:var(--branco);}
+</style>
+<script src="arcos.js"></script>
+</helmet>
+
+<div style="min-height:100vh;background:var(--base-950)">
+
+  <header style="position:fixed;top:0;left:0;right:0;z-index:60;background:color-mix(in srgb, var(--base-950) 82%, transparent);backdrop-filter:blur(14px);border-bottom:var(--borda)">
+    <div style="max-width:var(--max-w);margin:0 auto;padding:0 var(--sp-3);height:68px;display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3)">
+      <a href="Home.dc.html" style="display:flex;align-items:center">
+        <img src="uploads/590402669_17881333944423421_7223825427814460688_n.jpg" alt="Hard Eletric" style="height:32px;width:auto;display:block;border-radius:var(--r-1)" />
+      </a>
+
+      <sc-if value="{{ larga }}" hint-placeholder-val="{{ true }}">
+        <nav style="display:flex;align-items:center;gap:var(--sp-4);font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono)">
+          <a href="Home.dc.html" style="color:var(--cinza-texto);padding:6px 0" style-hover="color:var(--branco)">Início</a>
+          <a href="servicos.dc.html" style="color:var(--cinza-texto);padding:6px 0" style-hover="color:var(--branco)">Serviços</a>
+          <a href="projetos.dc.html" aria-current="page" style="color:var(--branco);padding:6px 0;border-bottom:1px solid var(--azul-instrumento)" style-hover="color:var(--branco)">Projetos</a>
+          <a href="sobre.dc.html" style="color:var(--cinza-texto);padding:6px 0" style-hover="color:var(--branco)">Sobre</a>
+          <a href="contato.dc.html" style="color:var(--cinza-texto);padding:6px 0" style-hover="color:var(--branco)">Contato</a>
+        </nav>
+      </sc-if>
+
+      <div style="display:flex;align-items:center;gap:var(--sp-2)">
+        <a href="https://wa.me/5544998137992?text=Ol%C3%A1%2C%20Mateus.%20Vi%20os%20projetos%20no%20site%20e%20queria%20falar%20sobre%20o%20meu." target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;background:var(--ambar-luz);color:var(--base-950);font-family:var(--ff-mono);font-size:var(--t-mono);font-weight:500;text-transform:uppercase;letter-spacing:var(--ls-mono);padding:11px 16px;border-radius:var(--r-2)" style-hover="background:var(--ambar-quente);color:var(--base-950)">WhatsApp</a>
+        <sc-if value="{{ estreita }}" hint-placeholder-val="{{ false }}">
+          <button type="button" onClick="{{ alternarMenu }}" aria-label="Abrir menu" aria-expanded="{{ menuAberto }}" style="width:44px;height:44px;display:grid;place-content:center;gap:5px;background:transparent;border:var(--borda);border-radius:var(--r-2);cursor:pointer;padding:0">
+            <span style="display:block;width:18px;height:1.5px;background:var(--branco)"></span>
+            <span style="display:block;width:18px;height:1.5px;background:var(--branco)"></span>
+            <span style="display:block;width:18px;height:1.5px;background:var(--branco)"></span>
+          </button>
+        </sc-if>
+      </div>
+    </div>
+
+    <sc-if value="{{ menuAberto }}" hint-placeholder-val="{{ false }}">
+      <nav style="border-top:var(--borda);background:var(--base-900);padding:var(--sp-2) var(--sp-3) var(--sp-3);display:grid;gap:2px;font-family:var(--ff-mono);font-size:0.8rem;text-transform:uppercase;letter-spacing:var(--ls-mono)">
+        <a href="Home.dc.html" onClick="{{ fecharMenu }}" style="color:var(--cinza-texto);padding:13px 0;border-bottom:var(--borda)">Início</a>
+        <a href="servicos.dc.html" onClick="{{ fecharMenu }}" style="color:var(--cinza-texto);padding:13px 0;border-bottom:var(--borda)">Serviços</a>
+        <a href="projetos.dc.html" aria-current="page" onClick="{{ fecharMenu }}" style="color:var(--azul-instrumento);padding:13px 0;border-bottom:var(--borda)">Projetos</a>
+        <a href="sobre.dc.html" onClick="{{ fecharMenu }}" style="color:var(--cinza-texto);padding:13px 0;border-bottom:var(--borda)">Sobre</a>
+        <a href="contato.dc.html" onClick="{{ fecharMenu }}" style="color:var(--cinza-texto);padding:13px 0">Contato</a>
+      </nav>
+    </sc-if>
+  </header>
+
+  <!-- ── TOPO ─────────────────────────────────────────────── -->
+  <section data-screen-label="Topo projetos" style="background:var(--base-950);padding:calc(68px + var(--sp-7)) var(--sp-3) var(--sp-6)">
+    <div style="max-width:var(--max-w);margin:0 auto">
+      <p style="font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono);color:var(--azul-instrumento)">EXECUTADO</p>
+      <h1 style="margin-top:var(--sp-3);font-family:var(--ff-display);font-variation-settings:var(--wdth-expanded);font-weight:700;font-size:var(--t-h1);line-height:var(--lh-titulo);letter-spacing:-0.015em;max-width:18ch">Onde o trabalho está.</h1>
+      <p style="margin-top:var(--sp-3);max-width:52ch;color:var(--cinza-texto);font-size:clamp(1rem,1.35vw,1.2rem)">Residencial, comercial e iluminação em Maringá, Sarandi e região.</p>
+    </div>
+  </section>
+
+  <!-- ── PROJETOS — fluxo escalonado, foto alternando de lado ── -->
+  <section data-screen-label="Projetos" style="background:var(--base-950);padding:0 var(--sp-3) var(--sp-7)">
+    <div style="max-width:var(--max-w);margin:0 auto;display:grid;gap:var(--sp-7)">
+
+      <article data-projeto style="display:flex;flex-wrap:wrap;gap:var(--sp-5);align-items:flex-start">
+        <div style="flex:1 1 min(100%,56%);display:grid;gap:var(--sp-3)">
+          <div style="position:relative;aspect-ratio:3/2;background:var(--base-800);border:var(--borda);border-radius:var(--r-2);overflow:hidden">
+            <div aria-hidden="true" style="position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 52px,color-mix(in srgb, var(--base-700) 60%, transparent) 52px 53px)"></div>
+            <img alt="Ambiente social de residência no Alphaville Maringá com fita LED embutida em sanca e forro ripado" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none" />
+            <span style="position:absolute;bottom:var(--sp-2);left:var(--sp-2);font-family:var(--ff-mono);font-size:var(--t-mono);letter-spacing:var(--ls-mono);color:var(--cinza-fraco)">FOTO — AMBIENTE SOCIAL ILUMINADO · 3:2</span>
+          </div>
+          <div style="display:flex;gap:var(--sp-2)">
+            <div style="flex:1;position:relative;aspect-ratio:4/5;background:var(--base-800);border:var(--borda);border-radius:var(--r-2);overflow:hidden">
+              <img alt="Forro ripado com perfil linear embutido marcando a circulação" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none" />
+              <span style="position:absolute;bottom:8px;left:8px;font-family:var(--ff-mono);font-size:0.62rem;letter-spacing:var(--ls-mono);color:var(--cinza-fraco)">RIPADO COM LINEAR</span>
+            </div>
+            <div style="flex:1;position:relative;aspect-ratio:4/5;background:var(--base-800);border:var(--borda);border-radius:var(--r-2);overflow:hidden">
+              <img alt="Área externa da residência com luz rasante em jardim" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none" />
+              <span style="position:absolute;bottom:8px;left:8px;font-family:var(--ff-mono);font-size:0.62rem;letter-spacing:var(--ls-mono);color:var(--cinza-fraco)">ÁREA EXTERNA</span>
+            </div>
+          </div>
+        </div>
+        <div style="flex:1 1 min(100%,32%);display:grid;gap:var(--sp-3);align-content:start;padding-top:var(--sp-2)">
+          <h2 style="font-family:var(--ff-display);font-variation-settings:var(--wdth-expanded);font-weight:700;font-size:var(--t-h2);line-height:var(--lh-titulo);letter-spacing:-0.01em">Alphaville</h2>
+          <p style="font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono);color:var(--azul-instrumento)">Iluminação arquitetural e instalação residencial · Maringá, PR</p>
+          <!-- TEXTO PROVISÓRIO — substituir por relato real -->
+          <p style="color:var(--cinza-texto)">Residência de alto padrão com iluminação integrada ao projeto de interiores. Fita LED embutida em sanca e ripado, perfil linear marcando parede e circulação, e luz rasante em jardim e área externa. A infraestrutura foi passada antes do acabamento fechar, com cada circuito identificado no quadro.</p>
+        </div>
+      </article>
+
+      <article data-projeto style="display:flex;flex-wrap:wrap;flex-direction:row-reverse;gap:var(--sp-5);align-items:flex-start">
+        <div style="flex:1 1 min(100%,50%);display:grid;gap:var(--sp-3)">
+          <div style="position:relative;aspect-ratio:3/2;background:var(--base-800);border:var(--borda);border-radius:var(--r-2);overflow:hidden">
+            <div aria-hidden="true" style="position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 48px,color-mix(in srgb, var(--base-700) 60%, transparent) 48px 49px)"></div>
+            <img alt="Showroom da Revest Acabamentos com trilho eletrificado e spot direcionável sobre as áreas de exposição" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none" />
+            <span style="position:absolute;bottom:var(--sp-2);left:var(--sp-2);font-family:var(--ff-mono);font-size:var(--t-mono);letter-spacing:var(--ls-mono);color:var(--cinza-fraco)">FOTO — SHOWROOM ILUMINADO · 3:2</span>
+          </div>
+          <div style="display:flex;gap:var(--sp-2)">
+            <div style="flex:1;position:relative;aspect-ratio:4/5;background:var(--base-800);border:var(--borda);border-radius:var(--r-2);overflow:hidden">
+              <img alt="Vitrine da loja iluminada voltada para a fachada" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none" />
+              <span style="position:absolute;bottom:8px;left:8px;font-family:var(--ff-mono);font-size:0.62rem;letter-spacing:var(--ls-mono);color:var(--cinza-fraco)">VITRINE</span>
+            </div>
+            <div style="flex:1;position:relative;aspect-ratio:4/5;background:var(--base-800);border:var(--borda);border-radius:var(--r-2);overflow:hidden">
+              <img alt="Detalhe de prateleira de amostras com luz de destaque" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none" />
+              <span style="position:absolute;bottom:8px;left:8px;font-family:var(--ff-mono);font-size:0.62rem;letter-spacing:var(--ls-mono);color:var(--cinza-fraco)">PRATELEIRA</span>
+            </div>
+          </div>
+        </div>
+        <div style="flex:1 1 min(100%,36%);display:grid;gap:var(--sp-3);align-content:start;padding-top:var(--sp-2)">
+          <h2 style="font-family:var(--ff-display);font-variation-settings:var(--wdth-expanded);font-weight:700;font-size:var(--t-h2);line-height:var(--lh-titulo);letter-spacing:-0.01em">Revest Acabamentos</h2>
+          <p style="font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono);color:var(--azul-instrumento)">Iluminação comercial e showroom · Maringá, PR</p>
+          <!-- TEXTO PROVISÓRIO — substituir por relato real -->
+          <p style="color:var(--cinza-texto)">Loja de acabamentos, onde a luz precisa mostrar material sem distorcer cor. Trilho eletrificado e spot direcionável sobre as áreas de exposição, iluminação de vitrine voltada para a fachada e luz de destaque nas prateleiras de amostra. Executado em etapas, com a loja funcionando.</p>
+        </div>
+      </article>
+
+      <article data-projeto style="display:flex;flex-wrap:wrap;gap:var(--sp-5);align-items:flex-start">
+        <div style="flex:1 1 min(100%,62%);display:grid;gap:var(--sp-3)">
+          <div style="position:relative;aspect-ratio:3/2;background:var(--base-800);border:var(--borda);border-radius:var(--r-2);overflow:hidden">
+            <div aria-hidden="true" style="position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 56px,color-mix(in srgb, var(--base-700) 60%, transparent) 56px 57px)"></div>
+            <img alt="Área de venda do Max Atacadista em Sarandi com iluminação de alto fluxo sobre os corredores" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none" />
+            <span style="position:absolute;bottom:var(--sp-2);left:var(--sp-2);font-family:var(--ff-mono);font-size:var(--t-mono);letter-spacing:var(--ls-mono);color:var(--cinza-fraco)">FOTO — ÁREA DE VENDA · 3:2</span>
+          </div>
+          <div style="display:flex;gap:var(--sp-2)">
+            <div style="flex:1;position:relative;aspect-ratio:4/5;background:var(--base-800);border:var(--borda);border-radius:var(--r-2);overflow:hidden">
+              <img alt="Totem de fachada do atacadista iluminado" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none" />
+              <span style="position:absolute;bottom:8px;left:8px;font-family:var(--ff-mono);font-size:0.62rem;letter-spacing:var(--ls-mono);color:var(--cinza-fraco)">TOTEM DE FACHADA</span>
+            </div>
+            <div style="flex:1;position:relative;aspect-ratio:4/5;background:var(--base-800);border:var(--borda);border-radius:var(--r-2);overflow:hidden">
+              <img alt="Quadro de distribuição montado e identificado após o reforço de carga" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none" />
+              <span style="position:absolute;bottom:8px;left:8px;font-family:var(--ff-mono);font-size:0.62rem;letter-spacing:var(--ls-mono);color:var(--cinza-fraco)">QUADRO MONTADO</span>
+            </div>
+            <div style="flex:1;position:relative;aspect-ratio:4/5;background:var(--base-800);border:var(--borda);border-radius:var(--r-2);overflow:hidden">
+              <img alt="Corredor de estoque com luminária de alto fluxo" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none" />
+              <span style="position:absolute;bottom:8px;left:8px;font-family:var(--ff-mono);font-size:0.62rem;letter-spacing:var(--ls-mono);color:var(--cinza-fraco)">ESTOQUE</span>
+            </div>
+          </div>
+        </div>
+        <div style="flex:1 1 min(100%,28%);display:grid;gap:var(--sp-3);align-content:start;padding-top:var(--sp-2)">
+          <h2 style="font-family:var(--ff-display);font-variation-settings:var(--wdth-expanded);font-weight:700;font-size:var(--t-h2);line-height:var(--lh-titulo);letter-spacing:-0.01em">Max Atacadista</h2>
+          <p style="font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono);color:var(--azul-instrumento)">Elétrica comercial e reforço de carga · Sarandi, PR</p>
+          <!-- TEXTO PROVISÓRIO — substituir por relato real -->
+          <p style="color:var(--cinza-texto)">Atacadista com área de venda ampla e carga alta. Reforço de circuito, revisão de quadro e instalação de iluminação de alto fluxo sobre corredores e área de estoque. Serviço executado fora do horário de operação para não interromper o atendimento.</p>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ── ANTES E DEPOIS — a mesma cena sem e com o trabalho ── -->
+  <section data-screen-label="Antes e depois" style="background:var(--base-900);border-top:var(--borda);padding:var(--sp-7) var(--sp-3)">
+    <div style="max-width:var(--max-w);margin:0 auto">
+      <p style="font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono);color:var(--azul-instrumento)">MESMA CENA</p>
+      <h2 style="margin-top:var(--sp-2);font-family:var(--ff-display);font-variation-settings:var(--wdth-expanded);font-weight:600;font-size:var(--t-h2);line-height:var(--lh-titulo);letter-spacing:-0.01em;max-width:24ch">O ambiente antes da luz, e depois dela</h2>
+      <div data-projeto style="margin-top:var(--sp-5);display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:var(--sp-3)">
+        <div style="display:grid;gap:var(--sp-2)">
+          <div style="position:relative;aspect-ratio:3/2;background:var(--base-800);border:var(--borda);border-radius:var(--r-2);overflow:hidden">
+            <div aria-hidden="true" style="position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 50px,color-mix(in srgb, var(--base-700) 45%, transparent) 50px 51px)"></div>
+            <img alt="Sala com a iluminação apagada, apenas a luz geral do teto" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none" />
+            <span style="position:absolute;top:var(--sp-2);left:var(--sp-2);font-family:var(--ff-mono);font-size:var(--t-mono);letter-spacing:var(--ls-mono);color:var(--cinza-texto);background:color-mix(in srgb, var(--base-950) 70%, transparent);padding:5px 9px;border-radius:var(--r-1)">ANTES</span>
+            <span style="position:absolute;bottom:var(--sp-2);left:var(--sp-2);font-family:var(--ff-mono);font-size:var(--t-mono);letter-spacing:var(--ls-mono);color:var(--cinza-fraco)">FOTO — MESMA CENA, LUZ APAGADA · 3:2</span>
+          </div>
+        </div>
+        <div style="display:grid;gap:var(--sp-2)">
+          <div style="position:relative;aspect-ratio:3/2;background:var(--base-800);border:1px solid var(--azul-fosco);border-radius:var(--r-2);overflow:hidden">
+            <div aria-hidden="true" style="position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 50px,color-mix(in srgb, var(--base-700) 45%, transparent) 50px 51px)"></div>
+            <img alt="A mesma sala com a iluminação arquitetural acesa: sanca, linear e luz de destaque" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none" />
+            <span style="position:absolute;top:var(--sp-2);left:var(--sp-2);font-family:var(--ff-mono);font-size:var(--t-mono);letter-spacing:var(--ls-mono);color:var(--base-950);background:var(--ambar-luz);padding:5px 9px;border-radius:var(--r-1)">DEPOIS</span>
+            <span style="position:absolute;bottom:var(--sp-2);left:var(--sp-2);font-family:var(--ff-mono);font-size:var(--t-mono);letter-spacing:var(--ls-mono);color:var(--cinza-fraco)">FOTO — MESMA CENA, LUZ ACESA · 3:2</span>
+          </div>
+        </div>
+      </div>
+      <p style="margin-top:var(--sp-3);max-width:52ch;color:var(--cinza-texto);font-size:0.98rem">Mesmo ângulo, mesma hora do dia. A diferença é onde a luz foi colocada.</p>
+    </div>
+  </section>
+
+  <!-- ── FECHO ────────────────────────────────────────────── -->
+  <section data-screen-label="CTA final" style="background:var(--base-800);border-top:var(--borda);padding:var(--sp-6) var(--sp-3)">
+    <div style="max-width:var(--max-w);margin:0 auto;display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:var(--sp-4)">
+      <div style="display:grid;gap:var(--sp-2);min-width:min(100%,340px)">
+        <h2 style="font-family:var(--ff-display);font-variation-settings:var(--wdth-expanded);font-weight:600;font-size:var(--t-h2);line-height:var(--lh-titulo);letter-spacing:-0.01em">Seu projeto entra aqui.</h2>
+        <a href="tel:+5544998137992" style="font-family:var(--ff-display);font-variation-settings:var(--wdth-expanded);font-weight:700;font-size:clamp(1.7rem,4.2vw,3rem);line-height:1.1;color:var(--ambar-luz)" style-hover="color:var(--ambar-quente)">(44) 99813-7992</a>
+        <p style="font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono);color:var(--cinza-texto)">Maringá e Sarandi · atendimento flexível, chame a qualquer hora</p>
+      </div>
+      <a href="https://wa.me/5544998137992?text=Ol%C3%A1%2C%20Mateus.%20Quero%20falar%20sobre%20um%20projeto%20como%20os%20do%20site." target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:10px;background:var(--ambar-luz);color:var(--base-950);font-family:var(--ff-mono);font-size:0.8rem;font-weight:500;text-transform:uppercase;letter-spacing:var(--ls-mono);padding:18px 28px;border-radius:var(--r-2)" style-hover="background:var(--ambar-quente);color:var(--base-950)">Chamar no WhatsApp</a>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ───────────────────────────────────────────── -->
+  <footer style="background:var(--base-950);border-top:var(--borda);padding:var(--sp-6) var(--sp-3) var(--sp-4)">
+    <div style="max-width:var(--max-w);margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:var(--sp-4)">
+      <div style="display:grid;gap:var(--sp-2);align-content:start">
+        <img src="uploads/590402669_17881333944423421_7223825427814460688_n.jpg" alt="Hard Eletric" style="height:40px;width:auto;display:block;border-radius:var(--r-1)" />
+        <p style="color:var(--cinza-texto);font-size:0.95rem;max-width:34ch">Mateus Th. — eletricista residencial e comercial. Instalação, manutenção e iluminação arquitetural.</p>
+      </div>
+      <div style="display:grid;gap:var(--sp-2);align-content:start;font-size:0.95rem">
+        <p style="font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono);color:var(--cinza-fraco)">NAVEGAÇÃO</p>
+        <a href="Home.dc.html" style="color:var(--cinza-texto)" style-hover="color:var(--branco)">Início</a>
+        <a href="servicos.dc.html" style="color:var(--cinza-texto)" style-hover="color:var(--branco)">Serviços</a>
+        <a href="projetos.dc.html" style="color:var(--cinza-texto)" style-hover="color:var(--branco)">Projetos</a>
+        <a href="sobre.dc.html" style="color:var(--cinza-texto)" style-hover="color:var(--branco)">Sobre</a>
+        <a href="contato.dc.html" style="color:var(--cinza-texto)" style-hover="color:var(--branco)">Contato</a>
+      </div>
+      <div style="display:grid;gap:var(--sp-2);align-content:start;font-size:0.95rem">
+        <p style="font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono);color:var(--cinza-fraco)">CONTATO</p>
+        <a href="https://wa.me/5544998137992" target="_blank" rel="noopener" style="color:var(--cinza-texto)" style-hover="color:var(--branco)">WhatsApp (44) 99813-7992</a>
+        <a href="https://instagram.com/hard.eletric" target="_blank" rel="noopener" style="color:var(--cinza-texto)" style-hover="color:var(--branco)">@hard.eletric</a>
+      </div>
+      <div style="display:grid;gap:var(--sp-2);align-content:start;font-size:0.95rem">
+        <p style="font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono);color:var(--cinza-fraco)">ÁREA DE ATENDIMENTO</p>
+        <p style="color:var(--cinza-texto)">Maringá e Sarandi, PR</p>
+        <p style="color:var(--cinza-texto)">Atendimento flexível</p>
+      </div>
+    </div>
+    <div style="max-width:var(--max-w);margin:var(--sp-4) auto 0;padding-top:var(--sp-3);border-top:var(--borda);display:flex;flex-wrap:wrap;gap:var(--sp-2);justify-content:space-between;font-family:var(--ff-mono);font-size:var(--t-mono);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--cinza-fraco)">
+      <p>© 2026 Hard Eletric · Maringá, PR</p>
+      <p>Site feito por <a href="https://meu-portfoliowilldev.vercel.app" target="_blank" rel="noopener" style="color:var(--cinza-fraco);border-bottom:1px solid var(--base-700)" style-hover="color:var(--cinza-texto)">Willian Softwares</a></p>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;azulInstrumento&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#2B8CE8&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Sistema&quot;,&quot;options&quot;:[&quot;#2B8CE8&quot;,&quot;#1E7FD6&quot;,&quot;#3A9BF0&quot;,&quot;#0F6FC4&quot;]},&quot;ambarLuz&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#E9A23B&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Sistema&quot;,&quot;options&quot;:[&quot;#E9A23B&quot;,&quot;#F0B24E&quot;,&quot;#DE8F2A&quot;]},&quot;animacoes&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Comportamento&quot;}}">
+class Component extends DCLogic {
+  state = {
+    larga: typeof window === 'undefined' ? true : window.innerWidth >= 900,
+    menuAberto: false
+  };
+
+  renderVals() {
+    return {
+      larga: this.state.larga,
+      estreita: !this.state.larga,
+      menuAberto: this.state.menuAberto && !this.state.larga,
+      alternarMenu: () => this.setState(s => ({ menuAberto: !s.menuAberto })),
+      fecharMenu: () => this.setState({ menuAberto: false })
+    };
+  }
+
+  componentDidMount() {
+    this.aoRedimensionar = () => {
+      const larga = window.innerWidth >= 900;
+      if (larga !== this.state.larga) this.setState({ larga, menuAberto: false });
+    };
+    window.addEventListener('resize', this.aoRedimensionar);
+
+    const raiz = document.documentElement;
+    if (this.props.azulInstrumento) raiz.style.setProperty('--azul-instrumento', this.props.azulInstrumento);
+    if (this.props.ambarLuz) raiz.style.setProperty('--ambar-luz', this.props.ambarLuz);
+
+    // Estado de falha: sem JS ou com prefers-reduced-motion, a página aparece LIGADA.
+    const semMovimento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (semMovimento || this.props.animacoes === false) return;
+
+    this.observadores = [];
+    const blocos = Array.from(document.querySelectorAll('[data-projeto]'));
+    blocos.forEach(el => {
+      el.style.opacity = '0.38';
+      el.style.filter = 'saturate(0.2)';
+      el.style.transform = 'translateY(16px)';
+      el.style.transition = 'opacity 900ms cubic-bezier(0.22,0.61,0.36,1), filter 900ms ease, transform 900ms cubic-bezier(0.22,0.61,0.36,1)';
+      el.style.willChange = 'opacity, transform';
+    });
+
+    // Regra do circuito fechado: o projeto na faixa central acende.
+    const pend = new Set(blocos);
+    const bandaBase = () => window.innerHeight * 0.70; // base da faixa central
+    let obs;
+
+    const ligar = el => {
+      el.style.opacity = '1';
+      el.style.filter = 'saturate(1)';
+      el.style.transform = 'translateY(0)';
+      el.style.willChange = 'auto';
+      pend.delete(el);
+      if (obs) obs.unobserve(el);
+    };
+
+    // Varredura: acende todo pendente cujo topo já entrou (ou passou) a faixa.
+    // O observador só reporta MUDANÇA de interseção; num salto de scroll o
+    // projeto pula de "abaixo" para "acima" sem gerar callback nenhuma.
+    const varredura = () => {
+      Array.from(pend).forEach(el => {
+        if (el.getBoundingClientRect().top < bandaBase()) ligar(el);
+      });
+    };
+
+    obs = new IntersectionObserver(entradas => {
+      entradas.forEach(e => { if (e.isIntersecting && pend.has(e.target)) ligar(e.target); });
+      varredura();
+    }, { root: null, rootMargin: '-30% 0px -30% 0px', threshold: 0 });
+
+    blocos.forEach(el => obs.observe(el));
+    this.observadores.push(obs);
+
+    // Rede de segurança: primeiro quadro (deep-link, posição restaurada) e fim
+    // de cada salto de scroll. Evento único, não listener por frame.
+    requestAnimationFrame(varredura);
+    if ('onscrollend' in window) {
+      this.aoTerminarScroll = varredura;
+      window.addEventListener('scrollend', this.aoTerminarScroll);
+    } else {
+      let ultimo = window.scrollY;
+      const poll = () => {
+        if (!pend.size) return;
+        if (window.scrollY !== ultimo) { ultimo = window.scrollY; varredura(); }
+        this.rafPoll = requestAnimationFrame(poll);
+      };
+      this.rafPoll = requestAnimationFrame(poll);
+    }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.aoRedimensionar);
+    (this.observadores || []).forEach(o => o.disconnect());
+    if (this.rafPoll) cancelAnimationFrame(this.rafPoll);
+    if (this.aoTerminarScroll) window.removeEventListener('scrollend', this.aoTerminarScroll);
+  }
+}
+</script>
+</body>
+</html>

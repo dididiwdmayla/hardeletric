@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+/* ─────────────────────────────────────────────────────────────
+   HARD ELETRIC — sistema visual (herdado da Fase 1, sem alteração)
+   Lei do projeto: nenhum hexadecimal solto fora deste bloco.
+   ───────────────────────────────────────────────────────────── */
+:root{
+  /* Base — o site é escuro por conceito, não por estilo */
+  --base-950:#080A0D;   /* fundo da página */
+  --base-900:#0E1218;   /* seções alternadas */
+  --base-800:#161C25;   /* superfícies, cards e slots de foto */
+  --base-700:#222A36;   /* bordas e divisores */
+
+  /* Instrumento — azul da logo. Como ele MEDE. */
+  --azul-instrumento:#2B8CE8;
+  --azul-glow:#6FC3FF;   /* backlight, brilho de LCD */
+  --azul-fosco:#1A4B7A;  /* estado desligado do azul */
+
+  /* Luz — o que ele ENTREGA. */
+  --ambar-luz:#E9A23B;
+  --ambar-quente:#F5C877; /* halo, brilho difuso */
+
+  /* Texto */
+  --branco:#F2F5F9;
+  --cinza-texto:#8892A0;
+  --cinza-fraco:#545E6B;
+
+  /* Tipografia — DSEG7 é exclusiva do multímetro da home, não entra aqui */
+  --ff-display:'Archivo',system-ui,sans-serif;
+  --ff-corpo:'Archivo',system-ui,sans-serif;
+  --ff-mono:'IBM Plex Mono',ui-monospace,monospace;
+  --wdth-expanded:'wdth' 125;
+  --wdth-normal:'wdth' 100;
+  --ls-mono:0.12em;
+
+  /* Escala de tipo */
+  --t-h1:clamp(2.5rem,6.4vw,5rem);
+  --t-h2:clamp(1.85rem,3.6vw,3rem);
+  --t-h3:clamp(1.15rem,1.7vw,1.5rem);
+  --t-corpo:clamp(1rem,1.15vw,1.125rem);
+  --t-mono:0.75rem;
+  --lh-titulo:1.06;
+  --lh-corpo:1.6;
+
+  /* Espaçamento, raio, medida */
+  --sp-1:0.5rem; --sp-2:0.875rem; --sp-3:1.25rem; --sp-4:2rem;
+  --sp-5:3rem; --sp-6:4.5rem; --sp-7:7rem;
+  --r-1:3px; --r-2:6px; --r-3:12px;
+  --max-w:1240px;
+  --borda:1px solid var(--base-700);
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;background:var(--base-950);color:var(--branco);
+  font-family:var(--ff-corpo);font-variation-settings:var(--wdth-normal);
+  font-size:var(--t-corpo);line-height:var(--lh-corpo);
+  -webkit-font-smoothing:antialiased;text-wrap:pretty;
+}
+h1,h2,h3,p{margin:0;}
+a{color:var(--branco);text-decoration:none;}
+a:hover{color:var(--ambar-luz);}
+:focus-visible{outline:2px solid var(--azul-instrumento);outline-offset:3px;}
+::selection{background:var(--azul-fosco);color:var(--branco);}
+</style>
+<script src="arcos.js"></script>
+</helmet>
+
+<div style="min-height:100vh;background:var(--base-950)">
+
+  <svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true" focusable="false">
+    <symbol id="s-duto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+      <line x1="2" y1="12" x2="22" y2="12" stroke-dasharray="4 3" /><line x1="7" y1="8" x2="7" y2="16" /><line x1="17" y1="8" x2="17" y2="16" />
+    </symbol>
+    <symbol id="s-interruptor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+      <line x1="2" y1="17" x2="8" y2="17" /><line x1="16" y1="17" x2="22" y2="17" /><line x1="8" y1="17" x2="16" y2="8" /><circle cx="8" cy="17" r="1.6" />
+    </symbol>
+    <symbol id="s-disjuntor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+      <rect x="4" y="7" width="16" height="10" rx="1.5" /><line x1="7" y1="16" x2="17" y2="8" />
+    </symbol>
+  </svg>
+
+  <header style="position:fixed;top:0;left:0;right:0;z-index:60;background:color-mix(in srgb, var(--base-950) 82%, transparent);backdrop-filter:blur(14px);border-bottom:var(--borda)">
+    <div style="max-width:var(--max-w);margin:0 auto;padding:0 var(--sp-3);height:68px;display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3)">
+      <a href="Home.dc.html" style="display:flex;align-items:center">
+        <img src="uploads/590402669_17881333944423421_7223825427814460688_n.jpg" alt="Hard Eletric" style="height:32px;width:auto;display:block;border-radius:var(--r-1)" />
+      </a>
+
+      <sc-if value="{{ larga }}" hint-placeholder-val="{{ true }}">
+        <nav style="display:flex;align-items:center;gap:var(--sp-4);font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono)">
+          <a href="Home.dc.html" style="color:var(--cinza-texto);padding:6px 0" style-hover="color:var(--branco)">Início</a>
+          <a href="servicos.dc.html" style="color:var(--cinza-texto);padding:6px 0" style-hover="color:var(--branco)">Serviços</a>
+          <a href="projetos.dc.html" style="color:var(--cinza-texto);padding:6px 0" style-hover="color:var(--branco)">Projetos</a>
+          <a href="sobre.dc.html" style="color:var(--cinza-texto);padding:6px 0" style-hover="color:var(--branco)">Sobre</a>
+          <a href="contato.dc.html" aria-current="page" style="color:var(--branco);padding:6px 0;border-bottom:1px solid var(--azul-instrumento)" style-hover="color:var(--branco)">Contato</a>
+        </nav>
+      </sc-if>
+
+      <div style="display:flex;align-items:center;gap:var(--sp-2)">
+        <a href="https://wa.me/5544998137992?text=Ol%C3%A1%2C%20Mateus.%20Vi%20o%20site%20e%20queria%20falar%20sobre%20um%20servi%C3%A7o." target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;background:var(--ambar-luz);color:var(--base-950);font-family:var(--ff-mono);font-size:var(--t-mono);font-weight:500;text-transform:uppercase;letter-spacing:var(--ls-mono);padding:11px 16px;border-radius:var(--r-2)" style-hover="background:var(--ambar-quente);color:var(--base-950)">WhatsApp</a>
+        <sc-if value="{{ estreita }}" hint-placeholder-val="{{ false }}">
+          <button type="button" onClick="{{ alternarMenu }}" aria-label="Abrir menu" aria-expanded="{{ menuAberto }}" style="width:44px;height:44px;display:grid;place-content:center;gap:5px;background:transparent;border:var(--borda);border-radius:var(--r-2);cursor:pointer;padding:0">
+            <span style="display:block;width:18px;height:1.5px;background:var(--branco)"></span>
+            <span style="display:block;width:18px;height:1.5px;background:var(--branco)"></span>
+            <span style="display:block;width:18px;height:1.5px;background:var(--branco)"></span>
+          </button>
+        </sc-if>
+      </div>
+    </div>
+
+    <sc-if value="{{ menuAberto }}" hint-placeholder-val="{{ false }}">
+      <nav style="border-top:var(--borda);background:var(--base-900);padding:var(--sp-2) var(--sp-3) var(--sp-3);display:grid;gap:2px;font-family:var(--ff-mono);font-size:0.8rem;text-transform:uppercase;letter-spacing:var(--ls-mono)">
+        <a href="Home.dc.html" onClick="{{ fecharMenu }}" style="color:var(--cinza-texto);padding:13px 0;border-bottom:var(--borda)">Início</a>
+        <a href="servicos.dc.html" onClick="{{ fecharMenu }}" style="color:var(--cinza-texto);padding:13px 0;border-bottom:var(--borda)">Serviços</a>
+        <a href="projetos.dc.html" onClick="{{ fecharMenu }}" style="color:var(--cinza-texto);padding:13px 0;border-bottom:var(--borda)">Projetos</a>
+        <a href="sobre.dc.html" onClick="{{ fecharMenu }}" style="color:var(--cinza-texto);padding:13px 0;border-bottom:var(--borda)">Sobre</a>
+        <a href="contato.dc.html" aria-current="page" onClick="{{ fecharMenu }}" style="color:var(--azul-instrumento);padding:13px 0">Contato</a>
+      </nav>
+    </sc-if>
+  </header>
+
+  <!-- ── TOPO ─────────────────────────────────────────────── -->
+  <section data-screen-label="Topo contato" style="background:var(--base-950);padding:calc(68px + var(--sp-6)) var(--sp-3) var(--sp-5)">
+    <div style="max-width:var(--max-w);margin:0 auto">
+      <p style="font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono);color:var(--azul-instrumento)">CIRCUITO FECHADO</p>
+      <h1 style="margin-top:var(--sp-3);font-family:var(--ff-display);font-variation-settings:var(--wdth-expanded);font-weight:700;font-size:var(--t-h1);line-height:var(--lh-titulo);letter-spacing:-0.015em;max-width:16ch">Chame a qualquer hora.</h1>
+      <p style="margin-top:var(--sp-3);max-width:54ch;color:var(--cinza-texto);font-size:clamp(1rem,1.35vw,1.2rem)">Atendimento flexível em Maringá e Sarandi. Manda foto do problema ou descreve — responde rápido.</p>
+    </div>
+  </section>
+
+  <!-- ── BLOCO PRINCIPAL — o eletroduto termina no ponto de luz ── -->
+  <section data-screen-label="Telefone e ponto de luz" data-ponto style="position:relative;overflow:hidden;background:var(--base-950);padding:var(--sp-6) var(--sp-3) var(--sp-7)">
+    <div style="max-width:var(--max-w);margin:0 auto;display:flex;flex-wrap:wrap;gap:var(--sp-5);align-items:center;justify-content:space-between">
+      <div style="flex:1 1 min(100%,52%);display:grid;gap:var(--sp-3);align-content:start">
+        <p style="font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono);color:var(--cinza-texto)">LIGAR DIRETO</p>
+        <a href="tel:+5544998137992" style="font-family:var(--ff-display);font-variation-settings:var(--wdth-expanded);font-weight:700;font-size:clamp(2.2rem,6vw,4.4rem);line-height:1.02;letter-spacing:-0.02em;color:var(--branco)" style-hover="color:var(--ambar-luz)">(44) 99813-7992</a>
+        <a href="https://wa.me/5544998137992?text=Ol%C3%A1%2C%20Mateus.%20Estou%20mandando%20a%20foto%20do%20problema%20el%C3%A9trico." target="_blank" rel="noopener" style="margin-top:var(--sp-2);justify-self:start;display:inline-flex;align-items:center;gap:10px;background:var(--ambar-luz);color:var(--base-950);font-family:var(--ff-mono);font-size:0.85rem;font-weight:500;text-transform:uppercase;letter-spacing:var(--ls-mono);padding:20px 32px;border-radius:var(--r-2)" style-hover="background:var(--ambar-quente);color:var(--base-950)">Chamar no WhatsApp</a>
+        <p style="font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono);color:var(--cinza-fraco)">Manda foto do problema — acelera o orçamento</p>
+      </div>
+
+      <div style="flex:1 1 min(100%,32%);display:grid;place-items:center;min-height:260px">
+        <svg viewBox="0 0 320 260" width="100%" style="max-width:340px;display:block;overflow:visible" aria-hidden="true">
+          <!-- o eletroduto que percorre o site chega até aqui -->
+          <path data-traco d="M-40 40 H120 V150 H188" fill="none" stroke="var(--azul-instrumento)" stroke-width="1.6" opacity="0.85" />
+          <circle cx="120" cy="40" r="3.5" fill="var(--azul-instrumento)" opacity="0.85" />
+          <circle cx="120" cy="150" r="3.5" fill="var(--azul-instrumento)" opacity="0.85" />
+          <!-- ponto final: símbolo de ponto de luz -->
+          <circle id="halo" cx="226" cy="150" r="66" fill="var(--ambar-quente)" opacity="0" style="transition:opacity 900ms ease" />
+          <g id="ponto-luz" style="opacity:0.35;transition:opacity 700ms ease">
+            <circle cx="226" cy="150" r="34" fill="none" stroke="var(--ambar-luz)" stroke-width="2" />
+            <line x1="202" y1="126" x2="250" y2="174" stroke="var(--ambar-luz)" stroke-width="2" />
+            <line x1="250" y1="126" x2="202" y2="174" stroke="var(--ambar-luz)" stroke-width="2" />
+          </g>
+          <g id="raios" style="opacity:0;transition:opacity 900ms ease 200ms">
+            <line x1="226" y1="96" x2="226" y2="82" stroke="var(--ambar-luz)" stroke-width="2" stroke-linecap="round" />
+            <line x1="226" y1="204" x2="226" y2="218" stroke="var(--ambar-luz)" stroke-width="2" stroke-linecap="round" />
+            <line x1="280" y1="150" x2="294" y2="150" stroke="var(--ambar-luz)" stroke-width="2" stroke-linecap="round" />
+            <line x1="264" y1="112" x2="274" y2="102" stroke="var(--ambar-luz)" stroke-width="2" stroke-linecap="round" />
+            <line x1="264" y1="188" x2="274" y2="198" stroke="var(--ambar-luz)" stroke-width="2" stroke-linecap="round" />
+          </g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── ATENDIMENTO ──────────────────────────────────────── -->
+  <section data-screen-label="Atendimento" style="background:var(--base-900);border-top:var(--borda);padding:var(--sp-7) var(--sp-3)">
+    <div style="max-width:var(--max-w);margin:0 auto" data-liga>
+      <p style="font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono);color:var(--azul-instrumento)">ATENDIMENTO</p>
+      <div style="margin-top:var(--sp-4);display:grid;gap:1px;background:var(--base-700);border:var(--borda)">
+        <div style="background:var(--base-900);padding:var(--sp-3);display:flex;flex-wrap:wrap;gap:var(--sp-2) var(--sp-4);align-items:baseline">
+          <span style="display:flex;align-items:center;gap:var(--sp-2);min-width:150px;font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono);color:var(--azul-instrumento)"><svg width="20" height="20" style="flex:none" aria-hidden="true"><use href="#s-duto"></use></svg>ÁREA</span>
+          <span style="flex:1 1 240px">Maringá e Sarandi, PR — e região</span>
+        </div>
+        <div style="background:var(--base-900);padding:var(--sp-3);display:flex;flex-wrap:wrap;gap:var(--sp-2) var(--sp-4);align-items:baseline">
+          <span style="display:flex;align-items:center;gap:var(--sp-2);min-width:150px;font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono);color:var(--azul-instrumento)"><svg width="20" height="20" style="flex:none" aria-hidden="true"><use href="#s-interruptor"></use></svg>HORÁRIO</span>
+          <span style="flex:1 1 240px">Atendimento flexível, sem horário fixo</span>
+        </div>
+        <div style="background:var(--base-900);padding:var(--sp-3);display:flex;flex-wrap:wrap;gap:var(--sp-2) var(--sp-4);align-items:baseline">
+          <span style="display:flex;align-items:center;gap:var(--sp-2);min-width:150px;font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono);color:var(--azul-instrumento)"><svg width="20" height="20" style="flex:none" aria-hidden="true"><use href="#s-disjuntor"></use></svg>URGÊNCIA</span>
+          <span style="flex:1 1 240px">Problema elétrico não espera. Chama que ele responde.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SECUNDÁRIO ───────────────────────────────────────── -->
+  <section data-screen-label="Instagram" style="background:var(--base-950);border-top:var(--borda);padding:var(--sp-6) var(--sp-3) var(--sp-7)">
+    <div style="max-width:var(--max-w);margin:0 auto;display:flex;flex-wrap:wrap;gap:var(--sp-4);justify-content:space-between;align-items:end" data-liga>
+      <div style="display:grid;gap:var(--sp-2);max-width:46ch">
+        <p style="font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono);color:var(--cinza-fraco)">TRABALHO RECENTE</p>
+        <a href="https://instagram.com/hard.eletric" target="_blank" rel="noopener" style="font-family:var(--ff-display);font-variation-settings:var(--wdth-expanded);font-weight:600;font-size:clamp(1.4rem,3vw,2.1rem);line-height:1.1;color:var(--branco)" style-hover="color:var(--azul-glow)">@hard.eletric</a>
+        <p style="color:var(--cinza-texto)">Serviço saindo do forno no Instagram. Para orçamento, WhatsApp é mais rápido — e dá pra mandar a foto do problema direto por lá.</p>
+      </div>
+      <a href="https://wa.me/5544998137992?text=Ol%C3%A1%2C%20Mateus.%20Vou%20mandar%20uma%20foto%20do%20problema." target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:10px;border:1px solid var(--base-700);color:var(--branco);font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono);padding:16px 24px;border-radius:var(--r-2)" style-hover="border-color:var(--azul-instrumento);color:var(--azul-glow)">Mandar foto pelo WhatsApp</a>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ───────────────────────────────────────────── -->
+  <footer style="background:var(--base-950);border-top:var(--borda);padding:var(--sp-6) var(--sp-3) var(--sp-4)">
+    <div style="max-width:var(--max-w);margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:var(--sp-4)">
+      <div style="display:grid;gap:var(--sp-2);align-content:start">
+        <img src="uploads/590402669_17881333944423421_7223825427814460688_n.jpg" alt="Hard Eletric" style="height:40px;width:auto;display:block;border-radius:var(--r-1)" />
+        <p style="color:var(--cinza-texto);font-size:0.95rem;max-width:34ch">Mateus Th. — eletricista residencial e comercial. Instalação, manutenção e iluminação arquitetural.</p>
+      </div>
+      <div style="display:grid;gap:var(--sp-2);align-content:start;font-size:0.95rem">
+        <p style="font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono);color:var(--cinza-fraco)">NAVEGAÇÃO</p>
+        <a href="Home.dc.html" style="color:var(--cinza-texto)" style-hover="color:var(--branco)">Início</a>
+        <a href="servicos.dc.html" style="color:var(--cinza-texto)" style-hover="color:var(--branco)">Serviços</a>
+        <a href="projetos.dc.html" style="color:var(--cinza-texto)" style-hover="color:var(--branco)">Projetos</a>
+        <a href="sobre.dc.html" style="color:var(--cinza-texto)" style-hover="color:var(--branco)">Sobre</a>
+        <a href="contato.dc.html" style="color:var(--cinza-texto)" style-hover="color:var(--branco)">Contato</a>
+      </div>
+      <div style="display:grid;gap:var(--sp-2);align-content:start;font-size:0.95rem">
+        <p style="font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono);color:var(--cinza-fraco)">CONTATO</p>
+        <a href="https://wa.me/5544998137992" target="_blank" rel="noopener" style="color:var(--cinza-texto)" style-hover="color:var(--branco)">WhatsApp (44) 99813-7992</a>
+        <a href="https://instagram.com/hard.eletric" target="_blank" rel="noopener" style="color:var(--cinza-texto)" style-hover="color:var(--branco)">@hard.eletric</a>
+      </div>
+      <div style="display:grid;gap:var(--sp-2);align-content:start;font-size:0.95rem">
+        <p style="font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono);color:var(--cinza-fraco)">ÁREA DE ATENDIMENTO</p>
+        <p style="color:var(--cinza-texto)">Maringá e Sarandi, PR</p>
+        <p style="color:var(--cinza-texto)">Atendimento flexível</p>
+      </div>
+    </div>
+    <div style="max-width:var(--max-w);margin:var(--sp-4) auto 0;padding-top:var(--sp-3);border-top:var(--borda);display:flex;flex-wrap:wrap;gap:var(--sp-2);justify-content:space-between;font-family:var(--ff-mono);font-size:var(--t-mono);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--cinza-fraco)">
+      <p>© 2026 Hard Eletric · Maringá, PR</p>
+      <p>Site feito por <a href="https://meu-portfoliowilldev.vercel.app" target="_blank" rel="noopener" style="color:var(--cinza-fraco);border-bottom:1px solid var(--base-700)" style-hover="color:var(--cinza-texto)">Willian Softwares</a></p>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;azulInstrumento&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#2B8CE8&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Sistema&quot;,&quot;options&quot;:[&quot;#2B8CE8&quot;,&quot;#1E7FD6&quot;,&quot;#3A9BF0&quot;,&quot;#0F6FC4&quot;]},&quot;ambarLuz&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#E9A23B&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Sistema&quot;,&quot;options&quot;:[&quot;#E9A23B&quot;,&quot;#F0B24E&quot;,&quot;#DE8F2A&quot;]},&quot;haloForca&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:0.16,&quot;min&quot;:0.06,&quot;max&quot;:0.3,&quot;step&quot;:0.01,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Ponto de luz&quot;},&quot;animacoes&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Comportamento&quot;}}">
+class Component extends DCLogic {
+  state = {
+    larga: typeof window === 'undefined' ? true : window.innerWidth >= 900,
+    menuAberto: false
+  };
+
+  renderVals() {
+    return {
+      larga: this.state.larga,
+      estreita: !this.state.larga,
+      menuAberto: this.state.menuAberto && !this.state.larga,
+      alternarMenu: () => this.setState(s => ({ menuAberto: !s.menuAberto })),
+      fecharMenu: () => this.setState({ menuAberto: false })
+    };
+  }
+
+  componentDidMount() {
+    this.aoRedimensionar = () => {
+      const larga = window.innerWidth >= 900;
+      if (larga !== this.state.larga) this.setState({ larga, menuAberto: false });
+    };
+    window.addEventListener('resize', this.aoRedimensionar);
+
+    const raiz = document.documentElement;
+    if (this.props.azulInstrumento) raiz.style.setProperty('--azul-instrumento', this.props.azulInstrumento);
+    if (this.props.ambarLuz) raiz.style.setProperty('--ambar-luz', this.props.ambarLuz);
+
+    const traco = document.querySelector('[data-traco]');
+    const ponto = document.getElementById('ponto-luz');
+    const halo = document.getElementById('halo');
+    const raios = document.getElementById('raios');
+    const haloForca = Number(this.props.haloForca ?? 0.16);
+
+    const acenderPonto = () => {
+      if (ponto) ponto.style.opacity = '1';
+      if (raios) raios.style.opacity = '1';
+      if (halo) {
+        halo.style.opacity = String(haloForca);
+        halo.style.filter = 'blur(26px)';
+      }
+    };
+
+    // Estado de falha: sem JS ou com prefers-reduced-motion, a página aparece LIGADA.
+    const semMovimento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (semMovimento || this.props.animacoes === false) {
+      if (traco) traco.style.strokeDashoffset = '0';
+      acenderPonto();
+      return;
+    }
+
+    this.observadores = [];
+    const alvos = Array.from(document.querySelectorAll('[data-liga],[data-ponto]'));
+    const pend = new Set(alvos);
+    const bandaBase = () => window.innerHeight * 0.68;
+    let obs;
+
+    alvos.forEach(el => {
+      el.style.opacity = '0.42';
+      el.style.filter = 'saturate(0.22)';
+      el.style.transform = 'translateY(14px)';
+      el.style.transition = 'opacity 800ms cubic-bezier(0.22,0.61,0.36,1), filter 800ms ease, transform 800ms cubic-bezier(0.22,0.61,0.36,1)';
+      el.style.willChange = 'opacity, transform';
+    });
+
+    if (traco && traco.getTotalLength) {
+      const total = traco.getTotalLength();
+      traco.style.strokeDasharray = total;
+      traco.style.strokeDashoffset = total;
+      traco.style.transition = 'stroke-dashoffset 1s cubic-bezier(0.22,0.61,0.36,1)';
+    }
+
+    const ligar = el => {
+      el.style.opacity = '1';
+      el.style.filter = 'saturate(1)';
+      el.style.transform = 'translateY(0)';
+      el.style.willChange = 'auto';
+
+      // O eletroduto do site inteiro fecha aqui: a linha se desenha e o ponto
+      // de luz acende. Único brilho âmbar da página.
+      if (el.hasAttribute('data-ponto')) {
+        if (traco) requestAnimationFrame(() => { traco.style.strokeDashoffset = '0'; });
+        this.timer = setTimeout(acenderPonto, 760);
+      }
+
+      pend.delete(el);
+      if (obs) obs.unobserve(el);
+    };
+
+    // Varredura: o observador só reporta MUDANÇA de interseção; num salto de
+    // scroll o elemento pula de "abaixo" para "acima" sem gerar callback.
+    const varredura = () => {
+      Array.from(pend).forEach(el => {
+        if (el.getBoundingClientRect().top < bandaBase()) ligar(el);
+      });
+    };
+
+    obs = new IntersectionObserver(entradas => {
+      entradas.forEach(e => { if (e.isIntersecting && pend.has(e.target)) ligar(e.target); });
+      varredura();
+    }, { root: null, rootMargin: '-30% 0px -30% 0px', threshold: 0 });
+
+    alvos.forEach(el => obs.observe(el));
+    this.observadores.push(obs);
+
+    requestAnimationFrame(varredura);
+    if ('onscrollend' in window) {
+      this.aoTerminarScroll = varredura;
+      window.addEventListener('scrollend', this.aoTerminarScroll);
+    } else {
+      let ultimo = window.scrollY;
+      const poll = () => {
+        if (!pend.size) return;
+        if (window.scrollY !== ultimo) { ultimo = window.scrollY; varredura(); }
+        this.rafPoll = requestAnimationFrame(poll);
+      };
+      this.rafPoll = requestAnimationFrame(poll);
+    }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.aoRedimensionar);
+    (this.observadores || []).forEach(o => o.disconnect());
+    if (this.timer) clearTimeout(this.timer);
+    if (this.rafPoll) cancelAnimationFrame(this.rafPoll);
+    if (this.aoTerminarScroll) window.removeEventListener('scrollend', this.aoTerminarScroll);
+  }
+}
+</script>
+</body>
+</html>
