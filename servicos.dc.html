@@ -1,9 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="./support.js"></script>
+<title>Serviços — Hard Eletric</title>
+<meta name="description" content="Oito circuitos de serviço: instalação completa, reparo, quadro de distribuição, iluminação arquitetural, automação, infraestrutura, chuveiro e ponto comercial." />
+<meta name="theme-color" content="#080A0D" />
+<link rel="canonical" href="https://hardeletric.vercel.app/servicos" />
+<link rel="icon" href="/uploads/590402669_17881333944423421_7223825427814460688_n.jpg" />
+<link rel="apple-touch-icon" href="/uploads/590402669_17881333944423421_7223825427814460688_n.jpg" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Hard Eletric" />
+<meta property="og:locale" content="pt_BR" />
+<meta property="og:title" content="Serviços — Hard Eletric" />
+<meta property="og:description" content="Oito circuitos de serviço: instalação completa, reparo, quadro de distribuição, iluminação arquitetural, automação, infraestrutura, chuveiro e ponto comercial." />
+<meta property="og:url" content="https://hardeletric.vercel.app/servicos" />
+<meta property="og:image" content="https://hardeletric.vercel.app/uploads/logo-1787038244434-lj08.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Serviços — Hard Eletric" />
+<meta name="twitter:description" content="Oito circuitos de serviço: instalação completa, reparo, quadro de distribuição, iluminação arquitetural, automação, infraestrutura, chuveiro e ponto comercial." />
+<meta name="twitter:image" content="https://hardeletric.vercel.app/uploads/logo-1787038244434-lj08.png" />
+<!-- React 18.3.1 (UMD) servido pelo próprio domínio: o runtime abaixo detecta
+     window.React/ReactDOM e não busca no unpkg. Se estes falharem, ele volta
+     automaticamente para o CDN. -->
+<script src="/vendor/react-18.3.1.production.min.js"></script>
+<script src="/vendor/react-dom-18.3.1.production.min.js"></script>
+<script src="/support.js"></script>
 </head>
 <body>
 <x-dc>
@@ -81,7 +103,7 @@ a:hover{color:var(--ambar-luz);}
 :focus-visible{outline:2px solid var(--azul-instrumento);outline-offset:3px;}
 ::selection{background:var(--azul-fosco);color:var(--branco);}
 </style>
-<script src="arcos.js"></script>
+<script src="/arcos.js"></script>
 </helmet>
 
 <div style="min-height:100vh;background:var(--base-950)">
@@ -113,17 +135,17 @@ a:hover{color:var(--ambar-luz);}
 
   <header style="position:fixed;top:0;left:0;right:0;z-index:60;background:color-mix(in srgb, var(--base-950) 82%, transparent);backdrop-filter:blur(14px);border-bottom:var(--borda)">
     <div style="max-width:var(--max-w);margin:0 auto;padding:0 var(--sp-3);height:68px;display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3)">
-      <a href="Home.dc.html" style="display:flex;align-items:center">
-        <img src="uploads/590402669_17881333944423421_7223825427814460688_n.jpg" alt="Hard Eletric" style="height:32px;width:auto;display:block;border-radius:var(--r-1)" />
+      <a href="/" style="display:flex;align-items:center">
+        <img src="/uploads/590402669_17881333944423421_7223825427814460688_n.jpg" alt="Hard Eletric" style="height:32px;width:auto;display:block;border-radius:var(--r-1)" />
       </a>
 
       <sc-if value="{{ larga }}" hint-placeholder-val="{{ true }}">
         <nav style="display:flex;align-items:center;gap:var(--sp-4);font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono)">
-          <a href="Home.dc.html" style="color:var(--cinza-texto);padding:6px 0" style-hover="color:var(--branco)">Início</a>
-          <a href="servicos.dc.html" aria-current="page" style="color:var(--branco);padding:6px 0;border-bottom:1px solid var(--azul-instrumento)" style-hover="color:var(--branco)">Serviços</a>
-          <a href="projetos.dc.html" style="color:var(--cinza-texto);padding:6px 0" style-hover="color:var(--branco)">Projetos</a>
-          <a href="sobre.dc.html" style="color:var(--cinza-texto);padding:6px 0" style-hover="color:var(--branco)">Sobre</a>
-          <a href="contato.dc.html" style="color:var(--cinza-texto);padding:6px 0" style-hover="color:var(--branco)">Contato</a>
+          <a href="/" style="color:var(--cinza-texto);padding:6px 0" style-hover="color:var(--branco)">Início</a>
+          <a href="/servicos" aria-current="page" style="color:var(--branco);padding:6px 0;border-bottom:1px solid var(--azul-instrumento)" style-hover="color:var(--branco)">Serviços</a>
+          <a href="/projetos" style="color:var(--cinza-texto);padding:6px 0" style-hover="color:var(--branco)">Projetos</a>
+          <a href="/sobre" style="color:var(--cinza-texto);padding:6px 0" style-hover="color:var(--branco)">Sobre</a>
+          <a href="/contato" style="color:var(--cinza-texto);padding:6px 0" style-hover="color:var(--branco)">Contato</a>
         </nav>
       </sc-if>
 
@@ -141,11 +163,11 @@ a:hover{color:var(--ambar-luz);}
 
     <sc-if value="{{ menuAberto }}" hint-placeholder-val="{{ false }}">
       <nav style="border-top:var(--borda);background:var(--base-900);padding:var(--sp-2) var(--sp-3) var(--sp-3);display:grid;gap:2px;font-family:var(--ff-mono);font-size:0.8rem;text-transform:uppercase;letter-spacing:var(--ls-mono)">
-        <a href="Home.dc.html" onClick="{{ fecharMenu }}" style="color:var(--cinza-texto);padding:13px 0;border-bottom:var(--borda)">Início</a>
-        <a href="servicos.dc.html" aria-current="page" onClick="{{ fecharMenu }}" style="color:var(--azul-instrumento);padding:13px 0;border-bottom:var(--borda)">Serviços</a>
-        <a href="projetos.dc.html" onClick="{{ fecharMenu }}" style="color:var(--cinza-texto);padding:13px 0;border-bottom:var(--borda)">Projetos</a>
-        <a href="sobre.dc.html" onClick="{{ fecharMenu }}" style="color:var(--cinza-texto);padding:13px 0;border-bottom:var(--borda)">Sobre</a>
-        <a href="contato.dc.html" onClick="{{ fecharMenu }}" style="color:var(--cinza-texto);padding:13px 0">Contato</a>
+        <a href="/" onClick="{{ fecharMenu }}" style="color:var(--cinza-texto);padding:13px 0;border-bottom:var(--borda)">Início</a>
+        <a href="/servicos" aria-current="page" onClick="{{ fecharMenu }}" style="color:var(--azul-instrumento);padding:13px 0;border-bottom:var(--borda)">Serviços</a>
+        <a href="/projetos" onClick="{{ fecharMenu }}" style="color:var(--cinza-texto);padding:13px 0;border-bottom:var(--borda)">Projetos</a>
+        <a href="/sobre" onClick="{{ fecharMenu }}" style="color:var(--cinza-texto);padding:13px 0;border-bottom:var(--borda)">Sobre</a>
+        <a href="/contato" onClick="{{ fecharMenu }}" style="color:var(--cinza-texto);padding:13px 0">Contato</a>
       </nav>
     </sc-if>
   </header>
@@ -302,16 +324,16 @@ a:hover{color:var(--ambar-luz);}
   <footer style="background:var(--base-950);border-top:var(--borda);padding:var(--sp-6) var(--sp-3) var(--sp-4)">
     <div style="max-width:var(--max-w);margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:var(--sp-4)">
       <div style="display:grid;gap:var(--sp-2);align-content:start">
-        <img src="uploads/590402669_17881333944423421_7223825427814460688_n.jpg" alt="Hard Eletric" style="height:40px;width:auto;display:block;border-radius:var(--r-1)" />
+        <img src="/uploads/590402669_17881333944423421_7223825427814460688_n.jpg" alt="Hard Eletric" style="height:40px;width:auto;display:block;border-radius:var(--r-1)" />
         <p style="color:var(--cinza-texto);font-size:0.95rem;max-width:34ch">Mateus Th. — eletricista residencial e comercial. Instalação, manutenção e iluminação arquitetural.</p>
       </div>
       <div style="display:grid;gap:var(--sp-2);align-content:start;font-size:0.95rem">
         <p style="font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono);color:var(--cinza-fraco)">NAVEGAÇÃO</p>
-        <a href="Home.dc.html" style="color:var(--cinza-texto)" style-hover="color:var(--branco)">Início</a>
-        <a href="servicos.dc.html" style="color:var(--cinza-texto)" style-hover="color:var(--branco)">Serviços</a>
-        <a href="projetos.dc.html" style="color:var(--cinza-texto)" style-hover="color:var(--branco)">Projetos</a>
-        <a href="sobre.dc.html" style="color:var(--cinza-texto)" style-hover="color:var(--branco)">Sobre</a>
-        <a href="contato.dc.html" style="color:var(--cinza-texto)" style-hover="color:var(--branco)">Contato</a>
+        <a href="/" style="color:var(--cinza-texto)" style-hover="color:var(--branco)">Início</a>
+        <a href="/servicos" style="color:var(--cinza-texto)" style-hover="color:var(--branco)">Serviços</a>
+        <a href="/projetos" style="color:var(--cinza-texto)" style-hover="color:var(--branco)">Projetos</a>
+        <a href="/sobre" style="color:var(--cinza-texto)" style-hover="color:var(--branco)">Sobre</a>
+        <a href="/contato" style="color:var(--cinza-texto)" style-hover="color:var(--branco)">Contato</a>
       </div>
       <div style="display:grid;gap:var(--sp-2);align-content:start;font-size:0.95rem">
         <p style="font-family:var(--ff-mono);font-size:var(--t-mono);text-transform:uppercase;letter-spacing:var(--ls-mono);color:var(--cinza-fraco)">CONTATO</p>
