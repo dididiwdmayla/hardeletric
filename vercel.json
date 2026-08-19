@@ -1,0 +1,111 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "trailingSlash": false,
+  "cleanUrls": false,
+  "redirects": [
+    {
+      "source": "/index.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/home",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/home.dc.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/Home.dc.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/servicos.dc.html",
+      "destination": "/servicos",
+      "permanent": true
+    },
+    {
+      "source": "/projetos.dc.html",
+      "destination": "/projetos",
+      "permanent": true
+    },
+    {
+      "source": "/sobre.dc.html",
+      "destination": "/sobre",
+      "permanent": true
+    },
+    {
+      "source": "/contato.dc.html",
+      "destination": "/contato",
+      "permanent": true
+    },
+    {
+      "source": "/servi%C3%A7os",
+      "destination": "/servicos",
+      "permanent": true
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/home.dc.html"
+    },
+    {
+      "source": "/servicos",
+      "destination": "/servicos.dc.html"
+    },
+    {
+      "source": "/projetos",
+      "destination": "/projetos.dc.html"
+    },
+    {
+      "source": "/sobre",
+      "destination": "/sobre.dc.html"
+    },
+    {
+      "source": "/contato",
+      "destination": "/contato.dc.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        }
+      ]
+    },
+    {
+      "source": "/uploads/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400, stale-while-revalidate=604800"
+        }
+      ]
+    },
+    {
+      "source": "/vendor/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
+  ]
+}
